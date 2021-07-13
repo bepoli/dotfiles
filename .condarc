@@ -1,0 +1,6 @@
+show_channel_urls: true
+channel_priority: strict
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
