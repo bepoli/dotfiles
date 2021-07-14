@@ -30,10 +30,10 @@ if grep -q "[Mm]icrosoft\|WSL" /proc/version &>/dev/null; then
   GIT_EXE=$(command -v git.exe)
   if [ "$GIT_EXE" ]; then
     if [[ "$GIT_EXE" =~ "scoop" ]] && [ -x $(command -v scoop) ] && [ -x $(command -v wslpath) ]; then
-      GIT_PREFIX=$(wslpath $(scoop prefix git | sed 's/\r$//'))
+      GIT_PREFIX="$(wslpath "$(scoop prefix git | sed 's/\r$//')")"
       GCM="$GIT_PREFIX/mingw64/libexec/git-core/git-credential-manager-core.exe"
     else
-      GIT_PREFIX=$(dirname $(dirname $(command -v git.exe)))
+      GIT_PREFIX="$(dirname "$(dirname "$(command -v git.exe)")")"
       GCM="$GIT_PREFIX/mingw64/libexec/git-core/git-credential-manager-core.exe"
     fi
     git config --global credential.helper "$GCM"
