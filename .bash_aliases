@@ -19,9 +19,6 @@ if command -v conda &>/dev/null; then
   alias cda='conda deactivate'
 fi
 
-# containers
-[ -x "$(command -v podman)" ] && alias docker=podman
-
 # print the header (the first line of input)
 # and then run the specified command on the body (the rest of the input)
 # use it in a pipeline, e.g. ps | body grep somepattern
