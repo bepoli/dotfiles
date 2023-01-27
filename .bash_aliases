@@ -3,7 +3,7 @@
 #
 
 # alias to manage dotfiles in a bare repo
-alias config='/usr/bin/git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME'
 
 # quality-of-life aliases
 alias ll='ls -alF'
