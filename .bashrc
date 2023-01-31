@@ -99,12 +99,9 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 # Initialize conda
 export MAMBA_EXE="$HOME/.local/bin/micromamba"
-export MAMBA_ROOT_PREFIX="$HOME/.local/share/conda"
-eval "$("$MAMBA_ROOT_PREFIX"/bin/conda shell.bash hook 2> /dev/null)"
-if [ -f "$MAMBA_ROOT_PREFIX/etc/profile.d/mamba.sh" ]; then
-    . "$MAMBA_ROOT_PREFIX/etc/profile.d/mamba.sh"
-fi
+export MAMBA_ROOT_PREFIX="$XDG_DATA_HOME/conda"
 eval "$("$MAMBA_EXE" shell hook --shell bash --prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+eval "$("$MAMBA_ROOT_PREFIX"/bin/conda shell.bash hook 2> /dev/null)"
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
