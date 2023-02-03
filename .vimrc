@@ -5,6 +5,7 @@
 source $VIMRUNTIME/defaults.vim
 
 set colorcolumn=80 
+set modeline
 set mouse=nvi
 
 colorscheme desert
