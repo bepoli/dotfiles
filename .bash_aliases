@@ -21,11 +21,7 @@ command -v micromamba &>/dev/null && alias mm='micromamba'
 
 # remove lines starting with "ibwarn" from slurm stderr
 sedibwarn() {
-  if [[ "$1" =~ "^slurm-.+" ]]; then
-    sed -i '/^ibwarn/d' $1
-  else
-    echo 'Error: not a slurm output file'
-  fi
+  sed -i '/^ibwarn/d' $1
 }
 
 # print the header (the first line of input)
