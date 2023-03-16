@@ -3,26 +3,37 @@
 #
 
 # alias to manage dotfiles in a bare repo
-alias config='/usr/bin/git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME'
+alias config='git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME'
 
 # quality-of-life aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-if [ ! -x "$(command -v realpath)" ]; then
-  if [ -x "$(command -v readlink)" ]; then
-    alias realpath='readlink -f'
-  fi
-fi
 [ -x "$(command -v batcat)" ] && alias bat='batcat'
-[ -x "$(command -v tmux)" ] && alias tm='tmux attach-session -d'
 [ -x "$(command -v vim)" ] && alias vi='vim'
-command -v micromamba &>/dev/null && alias mm='micromamba'
+[ -x "$(command -v stow)" ] && alias stow='stow --no-folding'
+if [ ! -x "$(command -v realpath)" ] && [ -x "$(command -v readlink)" ]; then
+	alias realpath='readlink -f'
+fi
+if [ -x "$(command -v tmux)" ]; then
+	alias tm='tmux attach-session -d'
+	alias tmc='tmux load-buffer'
+	alias tmv='tmux save-buffer'
+fi
+
+# slurm shortcuts
+if [ -x "$(command -v sbatch)" ]; then
+	__jobcols() { printf $((${COLUMNS}/4)); }
+	alias squeue='squeue -o "%.18i %.9P %.$(__jobcols)j %.8u %.2t %.10M %.6D %R"'
+	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
+fi
+
+command -v conda &>/dev/null && alias ca='mamba activate' cda='mamba deactivate'
+command -v mamba &>/dev/null && alias ca='mamba activate' cda='mamba deactivate'
 
 # remove lines starting with "ibwarn" from slurm stderr
-sedibwarn() {
-  sed -i '/^ibwarn/d' $1
-}
+sedibwarn() { sed -i '/^ibwarn/d' $1; }
+catibwarn() { grep -v '^ibwarn' $1; }
 
 # print the header (the first line of input)
 # and then run the specified command on the body (the rest of the input)
