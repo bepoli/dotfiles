@@ -108,12 +108,6 @@ fi
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Initialize conda
-if [ -x "$HOME/.local/bin/micromamba" ]; then
-	export MAMBA_EXE="$HOME/.local/bin/micromamba"
-	export MAMBA_ROOT_PREFIX="$XDG_DATA_HOME/conda"
-	eval "$("$MAMBA_EXE" shell hook --shell bash --prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-	eval "$("$MAMBA_ROOT_PREFIX"/bin/conda shell.bash hook 2> /dev/null)"
 fi
 
 # Alias definitions.
@@ -123,8 +117,8 @@ fi
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
 if declare -F _complete_alias &>/dev/null; then
     complete -F _complete_alias "${!BASH_ALIASES[@]}"
 fi
+
