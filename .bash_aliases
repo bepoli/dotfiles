@@ -6,20 +6,21 @@
 alias config='git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME'
 
 # quality-of-life aliases
-alias ll='ls -alF'
+[ -x "$(command -v batcat)" ] && alias bat='batcat'
 alias la='ls -A'
 alias l='ls -CF'
-[ -x "$(command -v batcat)" ] && alias bat='batcat'
-[ -x "$(command -v vim)" ] && alias vi='vim'
-[ -x "$(command -v stow)" ] && alias stow='stow --no-folding'
+alias ll='ls -alF'
 if [ ! -x "$(command -v realpath)" ] && [ -x "$(command -v readlink)" ]; then
 	alias realpath='readlink -f'
 fi
+alias fsort='LC_ALL=C sort'
+[ -x "$(command -v stow)" ] && alias stow='stow --no-folding'
 if [ -x "$(command -v tmux)" ]; then
 	alias tm='tmux attach-session -d'
 	alias tmc='tmux load-buffer'
 	alias tmv='tmux save-buffer'
 fi
+[ -x "$(command -v vim)" ] && alias vi='vim'
 
 # slurm shortcuts
 if [ -x "$(command -v sbatch)" ]; then
@@ -28,8 +29,9 @@ if [ -x "$(command -v sbatch)" ]; then
 	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
 fi
 
-command -v conda &>/dev/null && alias ca='mamba activate' cda='mamba deactivate'
-command -v mamba &>/dev/null && alias ca='mamba activate' cda='mamba deactivate'
+command -v conda &>/dev/null && alias c='conda'
+command -v mamba &>/dev/null && alias c='mamba'
+alias ca='c activate' cda='c deactivate'
 
 # remove lines starting with "ibwarn" from slurm stderr
 sedibwarn() { sed -i '/^ibwarn/d' $1; }
@@ -93,4 +95,24 @@ rsyncrm() {
   mkdir rsrm_empty
   rsync -a --delete rsrm_empty/ $1
   rmdir rsrm_empty $1
+}
+
+# scrape biocontainers
+biocontainers() {
+  local url="https://quay.io/api/v1/repository/biocontainers"
+  local sprefix="https://depot.galaxyproject.org/singularity"
+  local dprefix="quay.io/biocontainers"
+  curl -s -X GET $url/$1/tag/ \
+  | python3 -c "import json,sys;from datetime import datetime;\
+    obj=json.load(sys.stdin);\
+    print('docker_image\tsingularity_image\tlast_modified');\
+    [print('$dprefix/$1:{}\t$sprefix/$1:{}\t{}'.format(\
+      x['name'], x['name'], datetime.strptime(x['last_modified'], '%a, %d %b %Y %H:%M:%S -0000')\
+    )) for x in obj['tags']]"
+}
+biocontainers_galaxy() {
+  local url="https://depot.galaxyproject.org/singularity/"
+  curl -s $url | sed 's/\r$//' | grep -v "\-$" | grep "^<a href" \
+  | sed 's/<[^<>]*>//g' \
+  | awk -vurl=$url '{print url""$1"\t"$2"-"$3}'
 }
