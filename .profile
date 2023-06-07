@@ -37,3 +37,9 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+# WSL 2 settings
+if grep -q "microsoft" /proc/version > /dev/null 2>&1; then
+    export DISPLAY=$(ip route list default | awk '{print $3}'):0
+    export LIBGL_ALWAYS_INDIRECT=1
+fi
