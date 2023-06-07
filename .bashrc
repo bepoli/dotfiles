@@ -108,6 +108,25 @@ fi
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$($HOME'/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/conda/etc/profile.d/conda.sh" ]; then
+        . "$HOME/conda/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/conda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
+    . "$HOME/conda/etc/profile.d/mamba.sh"
+fi
+# <<< conda initialize <<<
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
