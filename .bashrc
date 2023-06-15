@@ -70,6 +70,15 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+__get_njobs() {
+	local n=$(jobs -rp | wc -l)
+	if [ "$n" -eq 0 ]; then
+		echo ""
+	else
+		echo " [$n]"
+	fi
+}
+
 __build_ps1() {
         local BLANK='\[\e[0m\]'
         local GREEN='\[\e[0;32m\]'
@@ -77,7 +86,8 @@ __build_ps1() {
         local RED='\[\e[0;91m\]'
         declare -F __git_ps1 &>/dev/null && local GIT='$(__git_ps1 " (%s)")'
         local EXIT='\[\e[0;$(($?==0?0:91))m\]'
-        echo "${GREEN}\u@\h${BLANK}:${BLUE}\W${RED}${GIT}${EXIT}\$${BLANK} "
+	local NJOBS='$(__get_njobs)'
+        echo "${GREEN}\u@\h${BLANK}:${BLUE}\W${RED}${GIT}${NJOBS}${EXIT}\$${BLANK} "
 }
 
 if [ "$color_prompt" = yes ]; then
