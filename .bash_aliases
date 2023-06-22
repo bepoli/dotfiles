@@ -3,7 +3,7 @@
 #
 
 # alias to manage dotfiles in a bare repo
-alias config='git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME'
+alias config='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
 
 # quality-of-life aliases
 [ -x "$(command -v batcat)" ] && alias bat='batcat'
