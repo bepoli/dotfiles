@@ -1,6 +1,6 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+#
+# ~/.bashrc
+#
 
 # If not running interactively, don't do anything
 case $- in
@@ -9,15 +9,14 @@ case $- in
 esac
 
 # Don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
 HISTCONTROL=ignoreboth
 
 # Append to the history file, don't overwrite it
 shopt -s histappend
 
 # For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=50000
+HISTFILESIZE=50000
 
 # Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -44,69 +43,26 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# Set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# Uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-__get_njobs() {
-	local exit=$?
-	local n=$(jobs -rp | wc -l)
-	if [ "$n" -ne 0 ]; then
-		echo " [$n]"
-	fi
+# Execute an expression suppressing the exit status
+__silent_eval() {
+	local exit="$?"
+	eval "$1"
 	return $exit
 }
 
+# Set prompt
 __build_ps1() {
-        local BLANK='\[\e[0;0m\]'
-        local GREEN='\[\e[0;32m\]'
-        local BLUE='\[\e[0;94m\]'
-        local RED='\[\e[0;91m\]'
-        declare -F __git_ps1 &>/dev/null && local GIT='$(__git_ps1 " (%s)")'
-	local NJOBS='$(__get_njobs " (%s)")'
-        local EXIT='\[\e[0;$(($?==0?0:91))m\]'
-        echo "${GREEN}\u@\h${BLANK}:${BLUE}\W${RED}${GIT}${NJOBS}${EXIT}\$${BLANK} "
+        local Bla='\[\e[0m\]'
+        local Red='\[\e[91m\]' Gre='\[\e[92m\]' Yel='\[\e[93m\]'
+        local Blu='\[\e[94m\]' Mag='\[\e[95m\]' Cya='\[\e[96m\]'
+	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "(%s)")'
+	local J='$(__silent_eval "[ \j -gt 0 ] && echo \[\e[91m\][\j]\[\e[0m\]")'
+	local E='\[\e[$(($??91:92))m\]'
+        echo "${J}${Yel}\h${Bla}:${Blu}\W${Mag}${Git}${E} ▸${Bla} "
 }
+PS1=$(__build_ps1)
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}'$(__build_ps1)
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
-fi
-unset color_prompt force_color_prompt __build_ps1
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases
+# Enable colored output on some commands
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
