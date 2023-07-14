@@ -1,11 +1,9 @@
+#
 # ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# This file is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
+#
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
+# set default umask
 umask 002
 
 # set XDG Base Directory Specification
@@ -20,26 +18,13 @@ export LC_ALL=C.UTF-8 LANG=C.UTF-8
 # default editor
 export EDITOR=vim
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+# local config
+if [ -f "$XDG_CONFIG_HOME"/shell/profile.local ]; then
+	. "$XDG_CONFIG_HOME"/shell/profile.local
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
+# load bashrc
+[ -n "$BASH_VERSION" ] && [ -f "$HOME"/.bashrc ] && . "$HOME"/.bashrc
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
-# WSL 2 settings
-if grep -q "microsoft" /proc/version > /dev/null 2>&1; then
-    export DISPLAY=$(ip route list default | awk '{print $3}'):0
-    export LIBGL_ALWAYS_INDIRECT=1
-fi
+# include user's tailing and leading PATH
+PATH="$HOME/.local/bin:$PATH:$HOME/bin"
