@@ -55,12 +55,13 @@ __build_ps1() {
         local Bla='\[\e[0m\]'
         local Red='\[\e[91m\]' Gre='\[\e[92m\]' Yel='\[\e[93m\]'
         local Blu='\[\e[94m\]' Mag='\[\e[95m\]' Cya='\[\e[96m\]'
-	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "(%s)")'
+	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "%s ")'
 	local J='$(__silent_eval "[ \j -gt 0 ] && echo \[\e[91m\][\j]\[\e[0m\]")'
 	local E='\[\e[$(($??91:92))m\]'
-        echo "${J}${Yel}\h${Bla}:${Blu}\W${Mag}${Git}${E} ▸${Bla} "
+        echo "${J}${Yel}\h${Bla}:${Blu}\W${Mag} ${Git}${E}▸${Bla} "
 }
 PS1=$(__build_ps1)
+unset __build_ps1
 
 # Enable colored output on some commands
 if [ -x /usr/bin/dircolors ]; then
