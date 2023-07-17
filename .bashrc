@@ -52,13 +52,14 @@ __silent_eval() {
 
 # Set prompt
 __build_ps1() {
-        local Bla='\[\e[0m\]'
-        local Red='\[\e[91m\]' Gre='\[\e[92m\]' Yel='\[\e[93m\]'
-        local Blu='\[\e[94m\]' Mag='\[\e[95m\]' Cya='\[\e[96m\]'
+        local Bla='\[\e[0m\]'  Gra='\[\e[90m\]' Red='\[\e[91m\]'
+	local Gre='\[\e[92m\]' Yel='\[\e[93m\]' Blu='\[\e[94m\]'
+	local Mag='\[\e[95m\]' Cya='\[\e[96m\]' Whi='\[\e[97m\]'
 	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "%s ")'
-	local J='$(__silent_eval "[ \j -gt 0 ] && echo \[\e[91m\][\j]\[\e[0m\]")'
+	local J='$(__silent_eval "[ \j -gt 0 ] && echo '"$Gra"'\(\j\)'"$Bla"'")'
 	local E='\[\e[$(($??91:92))m\]'
-        echo "${J}${Yel}\h${Bla}:${Blu}\W${Mag} ${Git}${E}▸${Bla} "
+	[ -z "$SSH_TTY" ] && local H='' || local H="\n${Bla}:"
+        echo "${J}${Yel}${H}${Blu}\W${Mag} ${Git}${E}▸${Bla} "
 }
 PS1=$(__build_ps1)
 unset __build_ps1
