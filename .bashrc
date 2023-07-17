@@ -58,7 +58,7 @@ __build_ps1() {
 	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "%s ")'
 	local J='$(__silent_eval "[ \j -gt 0 ] && echo '"$Gra"'\(\j\)'"$Bla"'")'
 	local E='\[\e[$(($??91:92))m\]'
-	[ -z "$SSH_TTY" ] && local H='' || local H="\n${Bla}:"
+	[ -z "$SSH_TTY" ] && local H='' || local H="\h${Bla}:"
         echo "${J}${Yel}${H}${Blu}\W${Mag} ${Git}${E}▸${Bla} "
 }
 PS1=$(__build_ps1)
