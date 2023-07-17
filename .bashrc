@@ -55,14 +55,13 @@ __build_ps1() {
         local Bla='\[\e[0m\]'  Gra='\[\e[90m\]' Red='\[\e[91m\]'
 	local Gre='\[\e[92m\]' Yel='\[\e[93m\]' Blu='\[\e[94m\]'
 	local Mag='\[\e[95m\]' Cya='\[\e[96m\]' Whi='\[\e[97m\]'
+	local Job='$(__silent_eval "[ \j -gt 0 ] && echo \(\j\)")'
+	[ -n "$SSH_TTY" ] && local Hos="${Yel}\h${Bla}:"
 	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "%s ")'
-	local J='$(__silent_eval "[ \j -gt 0 ] && echo '"$Gra"'\(\j\)'"$Bla"'")'
-	local E='\[\e[$(($??91:92))m\]'
-	[ -z "$SSH_TTY" ] && local H='' || local H="\h${Bla}:"
-        echo "${J}${Yel}${H}${Blu}\W${Mag} ${Git}${E}▸${Bla} "
+	local Arr='\[\e[$(($??91:92))m\]▸'
+        echo "${Gre}${Job}${Hos}${Blu}\W ${Mag}${Git}${Arr}${Bla} "
 }
-PS1=$(__build_ps1)
-unset __build_ps1
+PS1=$(__build_ps1) && unset __build_ps1
 
 # Enable colored output on some commands
 if [ -x /usr/bin/dircolors ]; then
