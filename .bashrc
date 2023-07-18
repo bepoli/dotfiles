@@ -59,7 +59,7 @@ __build_ps1() {
 	[ -n "$SSH_TTY" ] && local Hos="${Yel}\h${Bla}:"
 	declare -F __git_ps1 &>/dev/null && local Git='$(__git_ps1 "%s ")'
 	local Arr='\[\e[$(($??91:92))m\]▸'
-        echo "${Gre}${Job}${Hos}${Blu}\W ${Mag}${Git}${Arr}${Bla} "
+        echo "${Gra}${Job}${Hos}${Blu}\W ${Mag}${Git}${Arr}${Bla} "
 }
 PS1=$(__build_ps1) && unset __build_ps1
 
