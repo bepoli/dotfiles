@@ -14,5 +14,3 @@ if [ $? -gt 0 ]; then
   config checkout
 fi
 config config --local status.showUntrackedFiles no
-
-mkdir -p "$XDG_STATE_HOME"/bash
