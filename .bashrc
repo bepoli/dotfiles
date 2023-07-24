@@ -94,15 +94,18 @@ if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
 fi
 # <<< conda initialize <<<
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+# Local configuration file
+if [ -f "$XDG_CONFIG_HOME/bash/bash.local" ]; then
+	. "$XDG_CONFIG_HOME/bash/bash.local"
 fi
+
+# Alias definitions
+if [ -f "$HOME/.bash_aliases" ]; then
+	. "$HOME/.bash_aliases"
+fi
+
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
 if declare -F _complete_alias &>/dev/null; then
-    complete -F _complete_alias "${!BASH_ALIASES[@]}"
+	complete -F _complete_alias "${!BASH_ALIASES[@]}"
 fi
 
