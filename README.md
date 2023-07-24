@@ -1,9 +1,21 @@
 # dotfiles
 
 ## Install
-Install `curl` and `git`, then:
+### Quickstart
 ```
-sh <(curl -s https://raw.githubusercontent.com/bepoli/dotfiles/main/.config/dotfiles/init.sh)
+sh <(curl -s https://raw.githubusercontent.com/bepoli/dotfiles/main/init.sh)
+```
+
+### Not-as-quick start
+Install `curl` and `git`.
+
+Check `init.sh` to find out the default local and remote repository location.
+
+To configure local and remote dotfiles repository location:
+```
+Usage: init.sh [-d OUTPUT_DIRECTORY] [-r REMOTE_URL]
+Example:
+./init.sh -d $HOME/.dotfiles -r https://a_galaxy_far_far_away.com/this_is_me/these_are_my_dotfiles.git
 ```
 
 ## Uninstall
