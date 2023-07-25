@@ -96,8 +96,8 @@ fi
 # <<< conda initialize <<<
 
 # Local configuration file
-if [ -f "$XDG_CONFIG_HOME/bash/bash.local" ]; then
-	. "$XDG_CONFIG_HOME/bash/bash.local"
+if [ -f "$XDG_CONFIG_HOME/sh/bash.local" ]; then
+	. "$XDG_CONFIG_HOME/sh/bash.local"
 fi
 
 # Alias definitions
