@@ -1,19 +1,38 @@
 "
-" ~/.vimrc
+" ~/.vim/vimrc
 "
 
-source $VIMRUNTIME/defaults.vim
-
-set colorcolumn=80 
+" Options
+set autoread
+set background=dark
+set colorcolumn=80
+set history=1000
+set incsearch
+set laststatus=2
 set modeline
 set mouse=nvi
-set ttymouse=xterm2
+set nocompatible
+set nrformats-=octal
+set ruler
+set scrolloff=1
+set sidescroll=1
+set sidescrolloff=2
+set smarttab
+set ttimeout
+set ttimeoutlen=100
+set wildmenu
 
-colorscheme desert
+" Colors
 highlight ColorColumn ctermbg=17
 
+" File type associations
 au BufRead,BufNewFile nextflow.config,*.nf setfiletype groovy
 
+" Key bindings
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
 autocmd BufEnter,InsertLeave * :syntax sync fromstart
+
+" End
+filetype plugin indent on
+syntax enable
