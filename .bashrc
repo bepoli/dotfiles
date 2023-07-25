@@ -101,8 +101,8 @@ if [ -f "$XDG_CONFIG_HOME/sh/bash.local" ]; then
 fi
 
 # Alias definitions
-if [ -f "$HOME/.bash_aliases" ]; then
-	. "$HOME/.bash_aliases"
+if [ -f "$XDG_CONFIG_HOME/sh/aliases" ]; then
+	. "$XDG_CONFIG_HOME/sh/aliases"
 fi
 
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
