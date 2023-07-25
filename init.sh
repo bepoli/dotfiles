@@ -29,7 +29,8 @@ alias config='git --git-dir="$REPODIR" --work-tree="$HOME"'
 config checkout
 if [ $? -gt 0 ]; then
     mkdir -p ${REPODIR}-backup
-    config checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} rsync -vaR --remove-source-files {} "$REPODIR"-backup/
+    config checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs dirname | xargs -I{} mkdir "$REPODIR"-backup/{}
+    config checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} mv {} "$REPODIR"-backup/{}
     config checkout
 fi
 config sparse-checkout set --no-cone '/*' '!init.sh' '!README.md'
