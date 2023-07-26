@@ -116,3 +116,14 @@ biocontainers_galaxy() {
   | sed 's/<[^<>]*>//g' \
   | awk -vurl=$url '{print url""$1"\t"$2"-"$3}'
 }
+
+# ssh to PWD
+sshpwd() {
+  local shell=${2:-bash}
+  if [ "$shell" == "sh" ]; then
+    local args=""
+  else
+    local args=${3:-"--login"}
+  fi
+  ssh -t $1 "cd $PWD; $shell $args"
+}
