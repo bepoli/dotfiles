@@ -18,8 +18,8 @@ export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_complet
 # set default editor
 export EDITOR=vim
 
-# load bashrc
-[ -n "$BASH_VERSION" ] && [ -f "$HOME"/.bashrc ] && . "$HOME"/.bashrc
-
 # include user's tailing and leading PATH
 PATH="$HOME/.local/bin:$PATH:$HOME/bin"
+
+# load bashrc
+[ -n "$BASH_VERSION" ] && [ -f "$HOME"/.bashrc ] && . "$HOME"/.bashrc
