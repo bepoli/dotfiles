@@ -29,8 +29,16 @@ if [ -x "$(command -v sbatch)" ]; then
 	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
 fi
 
-command -v conda &>/dev/null && alias c='conda'
-command -v mamba &>/dev/null && alias c='mamba'
+# conda aliases
+if command -v micromamba &>/dev/null; then
+	alias conda='micromamba'
+	alias c='micromamba'
+elif command -v mamba &>/dev/null; then
+	alias conda='mamba'
+	alias c='mamba'
+elif command -v conda &>/dev/null; then
+	alias c='conda'
+fi
 alias ca='c activate' cda='c deactivate'
 
 # remove lines starting with "ibwarn" from slurm stderr
