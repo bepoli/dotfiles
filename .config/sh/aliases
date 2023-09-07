@@ -1,5 +1,5 @@
 #
-# ~/.bash_aliases
+# Shell aliases
 #
 
 # alias to manage dotfiles in a bare repo
@@ -21,6 +21,7 @@ if [ -x "$(command -v tmux)" ]; then
 	alias tmv='tmux save-buffer'
 fi
 [ -x "$(command -v vim)" ] && alias vi='vim'
+[ -x "$(command -v nvim)" ] && alias vim='nvim'
 
 # slurm shortcuts
 if [ -x "$(command -v sbatch)" ]; then
