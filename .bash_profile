@@ -15,9 +15,6 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_completion
 
-# set default editor
-export EDITOR=vim
-
 # include user's tailing and leading PATH
 PATH="$HOME/.local/bin:$PATH:$HOME/bin"
 
