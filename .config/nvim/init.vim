@@ -12,4 +12,4 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 " File type associations
-au BufRead,BufNewFile nextflow.config,*.nf setfiletype groovy
+au BufRead,BufNewFile nextflow.config,*.nf setfiletype groovy | setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
