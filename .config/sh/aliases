@@ -32,10 +32,10 @@ fi
 
 # conda aliases
 if command -v micromamba &>/dev/null; then
-	alias conda='micromamba'
+	#alias conda='micromamba'
 	alias c='micromamba'
 elif command -v mamba &>/dev/null; then
-	alias conda='mamba'
+	#alias conda='mamba'
 	alias c='mamba'
 elif command -v conda &>/dev/null; then
 	alias c='conda'
