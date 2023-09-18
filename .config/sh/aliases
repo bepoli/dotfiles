@@ -23,6 +23,9 @@ fi
 [ -x "$(command -v vim)" ] && alias vi='vim'
 [ -x "$(command -v nvim)" ] && alias vim='nvim'
 
+# store wget cache in XDG_STATE_HOME
+alias wget="wget --hsts-file=$XDG_DATA_HOME/wget-hsts"
+
 # slurm shortcuts
 if [ -x "$(command -v sbatch)" ]; then
 	__jobcols() { printf $((${COLUMNS}/4)); }

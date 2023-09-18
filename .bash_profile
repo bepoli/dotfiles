@@ -13,7 +13,9 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
+export HISTFILE="$XDG_STATE_HOME"/bash/history
 export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_completion
+export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
 
 # include user's tailing and leading PATH
 PATH="$HOME/.local/bin:$PATH:$HOME/bin"

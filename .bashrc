@@ -15,7 +15,6 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # Bash History configuration
-export HISTFILE="$XDG_STATE_HOME"/bash/history
 HISTSIZE=50000
 HISTFILESIZE=50000
 
