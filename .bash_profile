@@ -16,6 +16,7 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 export HISTFILE="$XDG_STATE_HOME"/bash/history
 export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_completion
 export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 
 # include user's tailing and leading PATH
 PATH="$HOME/.local/bin:$PATH:$HOME/bin"
