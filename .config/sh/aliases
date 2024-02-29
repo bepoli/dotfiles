@@ -85,9 +85,9 @@ cmkdir() {
 
 # check resource usage by user
 userusage() {
-  ps aux | awk '
+  ps aux | awk '{print $1,$3,$6,$8}' | sort -u | awk '
   BEGIN {print "USER\t%CPU\tRSS(GB)"}
-  { rss[$1]+=$6; cpu[$1]+=$3 }
+  { rss[$1]+=$3; cpu[$1]+=$2 }
   END { for(i in rss){OFS="\t"; print i,cpu[i],rss[i]/1000000} }'
 }
 
@@ -138,4 +138,9 @@ sshpwd() {
     local args=${3:-"--login"}
   fi
   ssh -t $1 "cd $PWD; $shell $args"
+}
+
+# get numbered header COLUMNS
+nheader() {
+	head -n 1 $1 | tr '\t' '\n' | nl
 }
