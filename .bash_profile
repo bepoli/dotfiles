@@ -14,7 +14,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-# include user's tailing and leading PATH
+# include user's trailing and leading PATH
 PATH="$HOME/.local/bin:$PATH:$HOME/bin"
 
 # load bashrc
