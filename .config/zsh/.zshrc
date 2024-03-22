@@ -1,5 +1,8 @@
 # ~/.config/zsh/zshrc
 
+# export SHELL variable for tmux
+export SHELL=$(which zsh)
+
 # Set propmpt
 PROMPT='%F{cyan}%~ %(?.%F{green}.%F{red})%\▸%f '
 

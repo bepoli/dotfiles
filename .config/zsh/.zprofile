@@ -1,4 +1,4 @@
-# ~/.config/zsh/.zshprofile
+# ~/.config/zsh/.zprofile
 
 # set default umask
 umask 002
