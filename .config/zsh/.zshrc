@@ -20,6 +20,9 @@ bindkey '^[[1;5C' forward-word
 # Enable completion
 autoload -Uz compinit && compinit
 
+# Make tab-completion case insensitive
+setopt NO_CASE_GLOB
+
 # Load local configuration file
 if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh/zsh.local ]; then
 	. "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh/zsh.local
