@@ -5,6 +5,12 @@
 # alias to manage dotfiles in a bare repo
 alias config='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
 
+# colored outputs
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
 # quality-of-life aliases
 [ -x "$(command -v batcat)" ] && alias bat='batcat'
 alias la='ls -A'
