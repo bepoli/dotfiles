@@ -34,6 +34,9 @@ bindkey '\e[1;5C' forward-word
 # Enable completion
 autoload -Uz compinit && compinit
 
+# Enable completion for special dirs (. and ..)
+zstyle ':completion:*' special-dirs true
+
 # Make tab-completion case insensitive
 setopt NO_CASE_GLOB
 
