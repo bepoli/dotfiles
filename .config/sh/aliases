@@ -138,7 +138,7 @@ biocontainers_galaxy() {
 # ssh to PWD
 sshpwd() {
   local shell=${2:-bash}
-  if [ "$shell" == "sh" ]; then
+  if [ "$shell"=="sh" ]; then
     local args=""
   else
     local args=${3:-"--login"}
