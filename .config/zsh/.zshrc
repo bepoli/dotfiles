@@ -8,7 +8,7 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
 setopt PROMPT_SUBST
-PROMPT="%F{yellow}$([ -n "$SSH_TTY" ] && echo '%M' || echo '')%F{white}:"'%F{cyan}%2c %F{magenta}${vcs_info_msg_0_}%(?.%F{green}.%F{red})%\▸%f '
+PROMPT="$([ -n "$SSH_TTY" ] && echo '%F{yellow}%M%F{white}:' || echo '')"'%F{cyan}%2c %F{magenta}${vcs_info_msg_0_}%(?.%F{green}.%F{red})%\▸%f '
 
 # History settings
 export HISTFILE="${XDG_CACHE_HOME}/zsh/.history"
