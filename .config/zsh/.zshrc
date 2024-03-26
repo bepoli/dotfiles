@@ -78,37 +78,30 @@ repos=(
 plugin-load $repos
 unset repos
 
-# Initialize conda
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE='/root/.local/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/root/micromamba';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+# Initialize micromamba/conda if installed
+# "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+if [ -x "$(command -v micromamba)" ]; then
+	export MAMBA_EXE="$(command -v micromamba)"
+	export MAMBA_ROOT_PREFIX="$($MAMBA_EXE info | grep 'base environment' | awk '{print $4}')"
+	__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+	if [ $? -eq 0 ]; then
+		eval "$__mamba_setup"
+	fi
+	unset __mamba_setup
+	if [ -x "$(command -v conda)" ]; then
+		export CONDA_EXE="$(command -v conda)"
+		__conda_setup="$($CONDA_EXE 'shell.zsh' 'hook' 2> /dev/null)"
+		if [ $? -eq 0 ]; then
+			eval "$__conda_setup"
+		else
+			export PATH="$MAMBA_ROOT_PREFIX/bin:$PATH"
+		fi
+	fi
+	unset __conda_setup
+	if [ -f "$MAMBA_ROOT_PREFIX/etc/profile.d/mamba.sh" ]; then
+		. "$MAMBA_ROOT_PREFIX/etc/profile.d/mamba.sh"
+	fi
 fi
-unset __mamba_setup
-# <<< mamba initialize <<<
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/root/micromamba/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/root/micromamba/etc/profile.d/conda.sh" ]; then
-        . "/root/micromamba/etc/profile.d/conda.sh"
-    else
-        export PATH="/root/micromamba/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-
-if [ -f "/root/micromamba/etc/profile.d/mamba.sh" ]; then
-    . "/root/micromamba/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
 
 # Load additional configuration files
 if [ -d ${XDG_CONFIG_HOME:-$HOME/.config}/shellcommons ]; then
@@ -121,6 +114,4 @@ fi
 if [ -f $ZDOTDIR/aliases ]; then
 	. $ZDOTDIR/aliases
 fi
-
-
 
