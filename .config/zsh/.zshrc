@@ -43,23 +43,8 @@ setopt NO_CASE_GLOB
 # Enable comments when working in an interactive shell
 setopt interactive_comments
 
-# Initialize conda/mamba if installed
-# >>> conda initialize >>>
-__conda_setup="$($HOME'/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/conda/etc/profile.d/conda.sh" ]; then
-        . "$HOME/conda/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/conda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
-    . "$HOME/conda/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
+# Do not return error on empty for loops
+setopt nullglob
 
 # Plugins management
 # Using zsh_unplugged (https://github.com/mattmc3/zsh_unplugged)
@@ -88,6 +73,24 @@ repos=(
 )
 plugin-load $repos
 unset repos
+
+# Initialize conda/mamba if installed
+# >>> conda initialize >>>
+__conda_setup="$($HOME'/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/conda/etc/profile.d/conda.sh" ]; then
+        . "$HOME/conda/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/conda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
+    . "$HOME/conda/etc/profile.d/mamba.sh"
+fi
+# <<< conda initialize <<<
 
 # Load additional configuration files
 if [ -d ${XDG_CONFIG_HOME:-$HOME/.config}/shellcommons ]; then
