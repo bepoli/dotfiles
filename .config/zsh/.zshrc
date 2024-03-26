@@ -89,9 +89,15 @@ repos=(
 plugin-load $repos
 unset repos
 
-# Load local configuration file
-[ -f $ZDOTDIR/zsh.local ] && . $ZDOTDIR/zsh.local
+# Load additional configuration files
+if [ -d ${XDG_CONFIG_HOME:-$HOME/.config}/shellcommons ]; then
+	for i in ${XDG_CONFIG_HOME:-$HOME/.config}/shellcommons/*; do
+		. $i
+	done
+fi
 
 # Load aliases
-[ -f $ZDOTDIR/aliases ] && $ZDOTDIR/aliases
+if [ -f $ZDOTDIR/aliases ]; then
+	. $ZDOTDIR/aliases
+fi
 
