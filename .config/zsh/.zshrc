@@ -62,7 +62,7 @@ fi
 # <<< conda initialize <<<
 
 # Plugins management
-# zsh_unplugged - https://github.com/mattmc3/zsh_unplugged
+# Using zsh_unplugged (https://github.com/mattmc3/zsh_unplugged)
 function plugin-load {
   local repo plugdir initfile initfiles=()
   : ${ZPLUGINDIR:=${ZDOTDIR:-~/.config/zsh}/plugins}
@@ -83,19 +83,15 @@ function plugin-load {
     (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
   done
 }
-# Load plugins
 repos=(
 	zsh-users/zsh-autosuggestions
 )
 plugin-load $repos
+unset repos
 
 # Load local configuration file
-if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh/zsh.local ]; then
-	. "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh/zsh.local
-fi
+[ -f $ZDOTDIR/zsh.local ] && . $ZDOTDIR/zsh.local
 
 # Load aliases
-if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/sh/aliases ]; then
-	. "${XDG_CONFIG_HOME:-$HOME/.config}"/sh/aliases
-fi
+[ -f $ZDOTDIR/aliases ] && $ZDOTDIR/aliases
 
