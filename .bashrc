@@ -8,6 +8,9 @@ case $- in
       *) return;;
 esac
 
+# Export SHELL variable
+export SHELL="$(which bash)"
+
 # Don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
