@@ -138,11 +138,14 @@ biocontainers_galaxy() {
 # ssh to PWD
 sshpwd() {
   local shell=${SHELL:-bash}
-  if [ "$shell"=="sh" ]; then
-    local args=""
-  else
-    local args=${2:-"--login"}
-  fi
+  case "$shell" in
+  	*/sh)
+		local args=""
+		;;
+	*)
+		local args=${2:-"--login"}
+		;;
+  esac
   ssh -t $1 "cd $PWD; $shell $args"
 }
 
