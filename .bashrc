@@ -78,14 +78,16 @@ fi
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Local configuration file
-if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/sh/bash.local ]; then
-	. "${XDG_CONFIG_HOME:-$HOME/.config}"/sh/bash.local
+# Load additional configuration files
+if [ -d ${XDG_CONFIG_HOME:-$HOME/.config}/shellcommons ]; then
+	for i in ${XDG_CONFIG_HOME:-$HOME/.config}/shellcommons/*; do
+		. $i
+	done
 fi
 
-# Alias definitions
-if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/sh/aliases ]; then
-	. "${XDG_CONFIG_HOME:-$HOME/.config}"/sh/aliases
+# Load aliases
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/bash/aliases ]; then
+	. "${XDG_CONFIG_HOME:-$HOME/.config}"/bash/aliases
 fi
 
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
