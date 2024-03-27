@@ -1,4 +1,4 @@
-" Vim-plug autoinstall
+
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -10,6 +10,9 @@ unlet data_dir
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
+
+" Coc.nvim extensions
+let g:coc_global_extensions = ['coc-json', 'coc-sh', 'coc-pyright']
 
 " File type associations
 autocmd BufRead,BufNewFile nextflow.config,*.nf setfiletype groovy | setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
