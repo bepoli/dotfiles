@@ -33,9 +33,10 @@ bindkey '\e[1;5D' backward-word
 bindkey '\e[1;5C' forward-word
 
 # Enable completion
-[ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
+fpath+="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions"
 autoload -Uz compinit
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+[ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 
 # Enable completion for special dirs (. and ..)
