@@ -1,3 +1,7 @@
+# Mamba documentation:
+# 	https://mamba.readthedocs.io/en/latest/
+# Micromamba auto-install:
+# 	"${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 
 __conda_setup="$($HOME'/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
