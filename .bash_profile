@@ -20,12 +20,6 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
 
-# Configure tab-completion
-bind 'set completion-ignore-case on'
-bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
-bind '"\e[Z":menu-complete-backward'
-
 # Make less more friendly for non-text input files with lesspipe
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
