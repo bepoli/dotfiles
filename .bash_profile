@@ -20,6 +20,12 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
 
+# Configure tab-completion
+bind 'set completion-ignore-case on'
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+bind '"\e[Z":menu-complete-backward'
+
 # Make less more friendly for non-text input files with lesspipe
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -34,7 +40,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
@@ -45,6 +50,9 @@ if [ -d ~/.config/bash ]; then
 	done
 	unset f
 fi
+
+# Enable fzf shell integration
+[ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
 
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
 if declare -F _complete_alias &>/dev/null; then
