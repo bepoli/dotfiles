@@ -1,21 +1,53 @@
-#
-# ~/.bash_profile: executed by bash for login shells
-#
+# ~/.bash_profile
 
-# set default umask
+# Allow teammates to edit my files
 umask 002
 
-# set locale
+# Set locale
 export LC_ALL=C.UTF-8 LANG=C.UTF-8
 
-# set XDG variables for software using them
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
+# Add user's trailing and leading PATH
+export PATH="$HOME/.local/bin:$PATH:$HOME/bin"
 
-# include user's trailing and leading PATH
-PATH="$HOME/.local/bin:$PATH:$HOME/bin"
+# History settings
+export HISTCONTROL=ignoreboth
+export HISTIGNORE=?:??
+export HISTSIZE=50000
+export HISTFILESIZE=50000
 
-# load bashrc
-[ -n "$BASH_VERSION" ] && [ -f "$HOME"/.bashrc ] && . "$HOME"/.bashrc
+# Shell options
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s globstar
+
+# Make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc). This also enables `__git_ps1`.
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+
+# Colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# Source all dotfiles
+if [ -d ~/.config/bash ]; then
+	for f in ~/.config/bash/*; do
+		[ -r "$f" ] && [ -f "$f" ] && . "$f"
+	done
+	unset f
+fi
+
+# Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
+if declare -F _complete_alias &>/dev/null; then
+	complete -F _complete_alias "${!BASH_ALIASES[@]}"
+fi
+
