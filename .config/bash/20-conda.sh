@@ -20,7 +20,7 @@ if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
 fi
 
 export MAMBA_EXE="$HOME/bin/micromamba";
-export MAMBA_ROOT_PREFIX="$HOME/mnt/home/polimeni/conda";
+export MAMBA_ROOT_PREFIX="$HOME/conda";
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
