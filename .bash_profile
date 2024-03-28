@@ -20,7 +20,7 @@ shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
 
-# Make less more friendly for non-text input files, see lesspipe(1)
+# Make less more friendly for non-text input files with lesspipe
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Enable programmable completion features (you don't need to enable
