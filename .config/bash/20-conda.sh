@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Mamba documentation:
 # 	https://mamba.readthedocs.io/en/latest/
 # Micromamba auto-install:

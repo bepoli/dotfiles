@@ -1,3 +1,4 @@
+#/bin/bash
 
 # Execute an expression suppressing the exit status
 __silent_eval() {
