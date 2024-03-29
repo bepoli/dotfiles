@@ -27,26 +27,30 @@ shopt -s globstar
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc). This also enables `__git_ps1`.
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
 fi
 
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Source all dotfiles
+# Enable fzf shell integration (https://github.com/junegunn/fzf). Install with:
+#  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.local/share/fzf
+#  ~/.local/share/fzf/install --xdg
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ]; then
+	. "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+fi
+
+# Source additional dotfiles
 if [ -d ~/.config/bash ]; then
 	for f in ~/.config/bash/*; do
 		[ -r "$f" ] && [ -f "$f" ] && . "$f"
 	done
 	unset f
 fi
-
-# Enable fzf shell integration
-[ -x "$(command -v fzf)" ] && eval "$(fzf --bash)"
 
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
 if declare -F _complete_alias &>/dev/null; then
