@@ -1,4 +1,50 @@
-#!/bin/bash
+# ~/.bash_aliases
+
+# Alias to manage dotfiles in a bare repo
+alias config='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
+
+# Colored outputs
+if [ -x /usr/bin/dircolors ]; then
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
+fi
+
+# Quality-of-life aliases
+[ -x "$(command -v batcat)" ] && alias bat='batcat'
+alias la='ls -A'
+alias l='ls -CF'
+alias ll='ls -alF'
+if [ ! -x "$(command -v realpath)" ] && [ -x "$(command -v readlink)" ]; then
+	alias realpath='readlink -f'
+fi
+alias fsort='LC_ALL=C sort'
+[ -x "$(command -v stow)" ] && alias stow='stow --no-folding'
+if [ -x "$(command -v tmux)" ]; then
+	alias tm='tmux attach-session -d'
+	alias tmc='tmux load-buffer'
+	alias tmv='tmux save-buffer'
+fi
+[ -x "$(command -v vim)" ] && alias vi='vim'
+[ -x "$(command -v nvim)" ] && alias vim='nvim'
+if command -v micromamba &>/dev/null; then
+	alias c='micromamba'
+elif command -v mamba &>/dev/null; then
+	alias c='mamba'
+elif command -v conda &>/dev/null; then
+	alias c='conda'
+fi
+alias ca='c activate' cda='c deactivate'
+
+# Slurm shortcuts
+if [ -x "$(command -v sbatch)" ]; then
+	__jobcols() { printf $((${COLUMNS}/4)); }
+	alias squeue='squeue -o "%.18i %.9P %.$(__jobcols)j %.8u %.2t %.10M %.6D %R"'
+	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
+fi
+
 
 # Print the header (the first line of input)
 # and then run the specified command on the body (the rest of the input)
@@ -80,7 +126,7 @@ biocontainers_galaxy() {
 	| awk -vurl=$url '{print url""$1"\t"$2"-"$3}'
 }
 
-# ssh to PWD
+# SSH to current directory
 sshpwd() {
 	local shell=${SHELL:-bash}
 	case "$shell" in
@@ -94,7 +140,8 @@ sshpwd() {
 	ssh -t $1 "cd $PWD; $shell $args"
 }
 
-# get numbered header COLUMNS
+# Get numbered header COLUMNS
 nheader() {
 	head -n 1 $1 | tr '\t' '\n' | nl
 }
+
