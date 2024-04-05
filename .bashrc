@@ -8,7 +8,6 @@ esac
 
 # History settings
 HISTCONTROL=ignoreboth
-HISTIGNORE=?:??
 HISTSIZE=50000
 HISTFILESIZE=50000
 
@@ -48,16 +47,32 @@ PS1=$(__build_ps1) && unset __build_ps1
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Enable fzf shell integration (https://github.com/junegunn/fzf). Install with:
-#  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.local/share/fzf
+# Enable fzf shell integration (github.com/junegunn/fzf). Install with:
+#  git clone --depth 1 -b 0.49.0 https://github.com/junegunn/fzf ~/.local/share/fzf
 #  ~/.local/share/fzf/install --xdg
 if [ -f ~/.config/fzf/fzf.bash ]; then
 	. ~/.config/fzf/fzf.bash
 fi
 
+# Enable z shell integration (github.com/rupa/z). Install with:
+#  git clone --depth 1 -b v1.12 https://github.com/rupa/z ~/.local/share/z
+#  mkdir -p ~/.local/state/z
+if [ -f ~/.local/share/z/z.sh ]; then
+	export _Z_DATA="$HOME/.local/state/z/z_data"
+	. ~/.local/share/z/z.sh
+fi
+
 # Source aliases
 if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
+fi
+
+# Source additional files
+if [ -d ~/.config/bash ]; then
+	for f in ~/.config/bash/*.sh; do
+		. $f
+	done
+	unset f
 fi
 
 # Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
