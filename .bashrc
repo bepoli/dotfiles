@@ -71,8 +71,8 @@ if [ -x "$HOME/conda/bin/conda" ]; then
 	fi
 fi
 if [ -x "$(command -v micromamba)" ]; then
-	export MAMBA_EXE='/mnt/home/polimeni/bin/micromamba'
-	export MAMBA_ROOT_PREFIX='/mnt/home/polimeni/conda'
+	export MAMBA_EXE="$(command -v micromamba)"
+	export MAMBA_ROOT_PREFIX="$HOME/conda"
 	eval "$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 fi
 
