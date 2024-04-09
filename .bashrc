@@ -49,7 +49,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 # Enable fzf shell integration (github.com/junegunn/fzf). Install with:
 #  git clone --depth 1 -b 0.49.0 https://github.com/junegunn/fzf ~/.local/share/fzf
-#  ~/.local/share/fzf/install --xdg
+#  ~/.local/share/fzf/install --xdg --key-bindings --completion --no-update-rc
 if [ -f ~/.config/fzf/fzf.bash ]; then
 	. ~/.config/fzf/fzf.bash
 fi
