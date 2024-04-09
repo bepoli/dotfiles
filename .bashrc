@@ -62,6 +62,20 @@ if [ -f ~/.local/share/z/z.sh ]; then
 	. ~/.local/share/z/z.sh
 fi
 
+# Initialize conda/mamba/micromamba (mamba.readthedocs.io). Install with:
+#  "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+if [ -x "$HOME/conda/bin/conda" ]; then
+	eval "$($HOME'/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+	if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
+		. "$HOME/conda/etc/profile.d/mamba.sh"
+	fi
+fi
+if [ -x "$(command -v micromamba)" ]; then
+	export MAMBA_EXE='/mnt/home/polimeni/bin/micromamba'
+	export MAMBA_ROOT_PREFIX='/mnt/home/polimeni/conda'
+	eval "$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+fi
+
 # Source aliases
 if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
@@ -75,7 +89,7 @@ if [ -d ~/.config/bash ]; then
 	unset f
 fi
 
-# Add autocompletion to all aliases (https://github.com/cykerway/complete-alias)
+# Add autocompletion to all aliases (github.com/cykerway/complete-alias).
 if declare -F _complete_alias &>/dev/null; then
 	complete -F _complete_alias "${!BASH_ALIASES[@]}"
 fi
