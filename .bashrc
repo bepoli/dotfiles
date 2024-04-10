@@ -63,7 +63,8 @@ if [ -f ~/.local/share/z/z.sh ]; then
 fi
 
 # Initialize conda/mamba/micromamba (mamba.readthedocs.io). Install with:
-#  "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+#  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+#  | tar -C ~/.local -xvj bin/micromamba
 if [ -x "$HOME/conda/bin/conda" ]; then
 	eval "$($HOME'/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 	if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
