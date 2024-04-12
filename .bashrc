@@ -82,8 +82,8 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # Source additional files
-if [ -d ~/.config/bash ]; then
-	for f in ~/.config/bash/*.sh; do
+if [ -d ~/.config/shell ]; then
+	for f in ~/.config/shell/*.?(ba)sh; do
 		. $f
 	done
 	unset f
