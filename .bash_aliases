@@ -145,3 +145,11 @@ nheader() {
 	head -n 1 $1 | tr '\t' '\n' | nl
 }
 
+# Generate duckduckgo email alias
+duck() {
+	curl -s -H "Content-Type: application/json" \
+		-H "Authorization: Bearer ${DUCK_TOKEN:-$1}" \
+		-X POST \
+		https://quack.duckduckgo.com/api/email/addresses \
+		| sed 's/.*"\([^"]\+\)"}/\1@duck.com\n/'
+}

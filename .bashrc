@@ -49,7 +49,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 # Enable fzf shell integration (github.com/junegunn/fzf). Install with:
 #  git clone --depth 1 -b 0.49.0 https://github.com/junegunn/fzf ~/.local/share/fzf
-#  ~/.local/share/fzf/install --xdg
+#  ~/.local/share/fzf/install --xdg --key-bindings --completion --no-update-rc
 if [ -f ~/.config/fzf/fzf.bash ]; then
 	. ~/.config/fzf/fzf.bash
 fi
@@ -63,7 +63,8 @@ if [ -f ~/.local/share/z/z.sh ]; then
 fi
 
 # Initialize conda/mamba/micromamba (mamba.readthedocs.io). Install with:
-#  "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+#  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+#  | tar -C ~/.local -xvj bin/micromamba
 if [ -x "$HOME/conda/bin/conda" ]; then
 	eval "$($HOME'/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 	if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
