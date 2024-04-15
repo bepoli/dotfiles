@@ -77,11 +77,6 @@ if [ -x "$(command -v micromamba)" ]; then
 	eval "$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 fi
 
-# Source aliases
-if [ -f ~/.bash_aliases ]; then
-	. ~/.bash_aliases
-fi
-
 # Source additional files
 if [ -d ~/.config/shell ]; then
 	for f in ~/.config/shell/*.?(ba)sh; do
