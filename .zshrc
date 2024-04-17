@@ -5,7 +5,9 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
 setopt PROMPT_SUBST
-PROMPT='%(1j.[%j] .)'"$([ -n "$SSH_TTY" ] && echo '%F{yellow}%M%F{white}:' || echo '')"'%F{cyan}%2c %F{magenta}${vcs_info_msg_0_}%(?.%F{green}.%F{red})%\▸%f '
+PROMPT='%(1j.[%j] .)'\
+"$([ -n "$SSH_TTY" ] && echo '%F{yellow}%M%F{white}:' || :)"\
+'%F{cyan}%2c %F{magenta}${vcs_info_msg_0_}%(?.%F{green}.%F{red})%\▸%f '
 
 # History settings
 export HISTFILE=~/.zsh_history
@@ -84,8 +86,7 @@ if [ -d ~/.config/shell ]; then
 	unset f
 fi
 
-# Plugins management
-# Using zsh_unplugged (https://github.com/mattmc3/zsh_unplugged)
+# Plugins management (https://github.com/mattmc3/zsh_unplugged)
 function plugin-load {
   local repo plugdir initfile initfiles=()
   : ${ZPLUGINDIR:=${HOME}/.local/share/zsh/plugins}
@@ -106,13 +107,11 @@ function plugin-load {
     (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
   done
 }
-repos=(
-	zsh-users/zsh-autosuggestions
-	zsh-users/zsh-syntax-highlighting
-	zsh-users/zsh-history-substring-search
-)
-plugin-load $repos
-unset repos
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+
+# Load plugins
+plugin-load zsh-users/zsh-autosuggestions
+plugin-load zsh-users/zsh-syntax-highlighting
+plugin-load zsh-users/zsh-history-substring-search && \
+	bindkey '^[[A' history-substring-search-up && \
+	bindkey '^[[B' history-substring-search-down
 
