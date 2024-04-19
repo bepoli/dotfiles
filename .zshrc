@@ -47,11 +47,16 @@ setopt interactive_comments
 # Do not return error on empty for loops
 #setopt nullglob
 
+# Enable command-not-found, if present
+if [ -f /etc/zsh_command_not_found ]; then
+	source /etc/zsh_command_not_found
+fi
+
 # Enable fzf shell integration (github.com/junegunn/fzf). Install with:
 #  git clone --depth 1 -b 0.49.0 https://github.com/junegunn/fzf ~/.local/share/fzf
 #  ~/.local/share/fzf/install --xdg --key-bindings --completion --no-update-rc
 if [ -f ~/.config/fzf/fzf.zsh ]; then
-        . ~/.config/fzf/fzf.zsh
+        source ~/.config/fzf/fzf.zsh
 	#bindkey '^[[A' fzf-history-widget
 fi
 
@@ -60,7 +65,7 @@ fi
 #  mkdir -p ~/.local/state/z
 if [ -f ~/.local/share/z/z.sh ]; then
         export _Z_DATA="$HOME/.local/state/z/z_data"
-        . ~/.local/share/z/z.sh
+        source ~/.local/share/z/z.sh
 fi
 
 # Initialize conda/mamba/micromamba (mamba.readthedocs.io). Install with:
@@ -69,7 +74,7 @@ fi
 if [ -x "$HOME/conda/bin/conda" ]; then
 	eval "$($HOME'/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 	if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
-		. "$HOME/conda/etc/profile.d/mamba.sh"
+		source "$HOME/conda/etc/profile.d/mamba.sh"
 	fi
 fi
 if [ -x "$(command -v micromamba)" ]; then
@@ -81,7 +86,7 @@ fi
 # Source additional files
 if [ -d ~/.config/shell ]; then
 	for f in ~/.config/shell/*.(z|)sh; do
-		. $f
+		source $f
 	done
 	unset f
 fi
