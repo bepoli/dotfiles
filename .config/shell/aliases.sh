@@ -12,6 +12,11 @@ if [ -x /usr/bin/dircolors ]; then
 	alias egrep='egrep --color=auto'
 fi
 
+# Safety aliases
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
 # Quality-of-life aliases
 [ -x "$(command -v batcat)" ] && alias bat='batcat'
 alias la='ls -A'
