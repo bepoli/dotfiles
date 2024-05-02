@@ -15,7 +15,7 @@ _fzf_complete_scancel_post() {
 [ -n "$BASH" ] && complete -F _fzf_complete_scancel -o default -o bashdefault scancel || :
 
 _fzf_complete_scontrol() {
-	_fzf_complete --header-lines=1 -- "$@" < <(squeue -u $USER)
+	_fzf_complete --header-lines=1 -- "$@" < <(squeue)
 }
 _fzf_complete_scontrol_post() {
 	awk '{print $1}'
