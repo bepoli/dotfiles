@@ -44,8 +44,8 @@ setopt NO_CASE_GLOB
 # Enable comments when working in an interactive shell
 setopt interactive_comments
 
-# Do not return error on empty for loops
-#setopt nullglob
+# Customize characters used as word separators
+export WORDCHARS='*?!_-.~=/&;|#$%^()[]{}<>'
 
 # Enable command-not-found, if present
 if [ -f /etc/zsh_command_not_found ]; then
