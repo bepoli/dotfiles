@@ -21,3 +21,12 @@ _fzf_complete_scontrol_post() {
 	awk '{print $1}'
 }
 [ -n "$BASH" ] && complete -F _fzf_complete_scontrol -o default -o bashdefault scancel || :
+
+# Z integration (https://github.com/junegunn/fzf/wiki/examples#z)
+if type -w _z &>/dev/null; then
+	unalias z 2> /dev/null
+	function z() {
+		[ $# -gt 0 ] && _z "$*" && return
+		cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+	}
+fi
