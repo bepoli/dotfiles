@@ -47,6 +47,7 @@ alias ca='c activate' cda='c deactivate'
 if [ -x "$(command -v sbatch)" ]; then
 	__jobcols() { printf $((${COLUMNS}/4)); }
 	alias squeue='squeue -o "%.18i %.9P %.$(__jobcols)j %.8u %.2t %.10M %.6D %R"'
+	alias squeueu='squeue -u $USER'
 	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
 fi
 
