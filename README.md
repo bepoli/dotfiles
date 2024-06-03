@@ -3,7 +3,7 @@
 ## Install
 ### Quickstart
 ```
-sh <(curl -s https://raw.githubusercontent.com/bepoli/dotfiles/main/init.sh)
+sh <(curl -s https://bepoli.github.io/dotfiles/init.sh)
 ```
 
 ### Not-as-quick start
