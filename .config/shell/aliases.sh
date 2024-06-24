@@ -63,7 +63,7 @@ body() {
 }
 
 # Reverse complement a DNA sequence
-revcom() {
+revc() {
 	if [ -n "$1" ]; then
 		echo "$1" | rev | tr "TACG" "ATGC"
 	else
