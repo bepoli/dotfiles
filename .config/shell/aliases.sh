@@ -65,9 +65,9 @@ body() {
 # Reverse complement a DNA sequence
 revc() {
 	if [ -n "$1" ]; then
-		echo "$1" | rev | tr "TACG" "ATGC"
+		echo "$1" | rev | tr 'ACGTRYKMBDHV' 'TGCAYRMKVHDB'
 	else
-		rev | tr "TACG" "ATGC"
+		rev | tr 'ACGTRYKMBDHV' 'TGCAYRMKVHDB'
 	fi
 }
 
