@@ -53,12 +53,10 @@ if [ -f /etc/zsh_command_not_found ]; then
 fi
 
 # Enable fzf shell integration (github.com/junegunn/fzf). Install with:
-#  git clone --depth 1 -b 0.49.0 https://github.com/junegunn/fzf ~/.local/share/fzf
-if [ -x ~/.local/share/fzf/bin/fzf ]; then
-	if ! (($path[(Ie)$HOME/.local/share/fzf/bin])); then
-		path+=~/.local/share/fzf/bin
-	fi
-	eval "$(fzf --zsh)"
+#  git clone --depth 1 -b v0.54.0 https://github.com/junegunn/fzf ~/.local/share/fzf
+#  ~/.local/share/fzf/install --xdg --key-bindings --completion --no-update-rc
+if [ -f ~/.config/fzf/fzf.zsh ]; then
+	source ~/.config/fzf/fzf.zsh
 fi
 
 # Enable z shell integration (github.com/rupa/z). Install with:
@@ -120,4 +118,3 @@ plugin-load zsh-users/zsh-syntax-highlighting
 plugin-load zsh-users/zsh-history-substring-search && \
 	bindkey '^[[A' history-substring-search-up && \
 	bindkey '^[[B' history-substring-search-down
-
