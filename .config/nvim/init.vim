@@ -22,4 +22,5 @@ autocmd BufEnter,InsertLeave * :syntax sync fromstart
 set colorcolumn=80
 
 " Colors
+colorscheme wildcharm
 highlight ColorColumn ctermbg=238
