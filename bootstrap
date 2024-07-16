@@ -27,5 +27,5 @@ if [ $? -gt 0 ]; then
     config checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} mv {} "$REPODIR"-backup/{}
     config checkout
 fi
-config sparse-checkout set --no-cone '/**' '!init.sh' '!README.md'
+config sparse-checkout set --no-cone '/**' '!bootstrap' '!README.md'
 config config --local status.showUntrackedFiles no

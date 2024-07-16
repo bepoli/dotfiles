@@ -3,19 +3,19 @@
 ## Install
 ### Quickstart
 ```
-sh <(curl -s https://bepoli.github.io/dotfiles/init.sh)
+sh <(curl -s https://bepoli.github.io/dotfiles/bootstrap)
 ```
 
 ### Not-as-quick start
 Install `curl` and `git`.
 
-Check `init.sh` to find out the default local and remote repository location.
+Check `bootstrap` to find out the default local and remote repository location.
 
 To configure local and remote dotfiles repository location:
 ```
-Usage: init.sh [-d OUTPUT_DIRECTORY] [-r REMOTE_URL]
+Usage: bootstrap [-d OUTPUT_DIRECTORY] [-r REMOTE_URL]
 Example:
-./init.sh -d $HOME/.dotfiles -r https://a_galaxy_far_far_away.com/this_is_me/these_are_my_dotfiles.git
+./bootstrap -d $HOME/.dotfiles -r https://a_galaxy_far_far_away.com/this_is_me/these_are_my_dotfiles.git
 ```
 
 ## Uninstall
