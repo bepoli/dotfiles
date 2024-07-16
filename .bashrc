@@ -44,11 +44,8 @@ __build_ps1() {
 }
 PS1=$(__build_ps1) && unset __build_ps1
 
-# Colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 # Enable fzf shell integration (github.com/junegunn/fzf). Install with:
-#  git clone --depth 1 -b 0.49.0 https://github.com/junegunn/fzf ~/.local/share/fzf
+#  git clone --depth 1 -b v0.54.0 https://github.com/junegunn/fzf ~/.local/share/fzf
 #  ~/.local/share/fzf/install --xdg --key-bindings --completion --no-update-rc
 if [ -f ~/.config/fzf/fzf.bash ]; then
 	. ~/.config/fzf/fzf.bash
@@ -89,4 +86,3 @@ fi
 if declare -F _complete_alias &>/dev/null; then
 	complete -F _complete_alias "${!BASH_ALIASES[@]}"
 fi
-
