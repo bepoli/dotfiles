@@ -36,6 +36,8 @@ fi
 [ -x "$(command -v nvim)" ] && alias vim='nvim'
 if command -v micromamba &>/dev/null; then
 	alias c='micromamba'
+	! command -v mamba &>/dev/null && alias mamba='micromamba'
+	! command -v conda &>/dev/null && alias conda='micromamba'
 elif command -v mamba &>/dev/null; then
 	alias c='mamba'
 elif command -v conda &>/dev/null; then
