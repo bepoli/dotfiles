@@ -80,7 +80,7 @@ wcu() {
 
 # Add the executed command line to output's header
 cmdump() {
-	echo "# $@"
+	echo -E "# $@"
 	$@
 }
 
