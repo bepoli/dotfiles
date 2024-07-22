@@ -9,6 +9,7 @@ unlet data_dir
 " Vim-plug plugins
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'mrcjkb/nvim-lastplace', {'tag': 'v1.0.0'}
 call plug#end()
 
 " Coc.nvim extensions
