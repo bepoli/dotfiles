@@ -80,7 +80,8 @@ wcu() {
 
 # Add the executed command line to output's header
 cmdump() {
-	cat <( history | tail -1 | sed 's/\ [0-9]\+\ \+/#\ /') -
+	echo "# $@"
+	$@
 }
 
 # Create directory and enter it
