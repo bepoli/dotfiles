@@ -82,6 +82,9 @@ if [ -x "$(command -v micromamba)" ]; then
 	eval "$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 fi
 
+# Initialize pyenv
+eval "$(pyenv init -)"
+
 # Source additional files
 if [ -d ~/.config/shell ]; then
 	for f in ~/.config/shell/*.(z|)sh; do

@@ -6,3 +6,6 @@ export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 if [ -f "$HOME/.bashrc" ]; then
 	. "$HOME/.bashrc"
 fi
+
+export PYENV_ROOT="$HOME/.local/share/pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
