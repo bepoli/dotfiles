@@ -1,4 +1,4 @@
-# ~/.bash_aliases
+# (ba|z)sh aliase
 
 # Alias to manage dotfiles in a bare repo
 alias config='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
