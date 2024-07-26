@@ -10,7 +10,7 @@ PROMPT='%(1j.[%j] .)'\
 '%F{cyan}%2c %F{magenta}${vcs_info_msg_0_}%(?.%F{green}.%F{red})%\▸%f '
 
 # History settings
-export HISTFILE=~/.zsh_history
+export HISTFILE="$XDG_STATE_HOME"/zsh/history
 export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
 export HISTSIZE=50000        # History lines stored in mememory
 export SAVEHIST=50000        # History lines stored on disk
@@ -33,9 +33,10 @@ bindkey '\e[1;5D' backward-word
 bindkey '\e[1;5C' forward-word
 
 # Enable completion
-fpath+="$HOME/.local/share/zsh/site-functions"
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+fpath+="$XDG_DATA_HOME"/zsh/site-functions
 autoload -Uz compinit
-compinit
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 
 # Enable completion for special dirs (. and ..)
 zstyle ':completion:*' special-dirs true
