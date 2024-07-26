@@ -21,9 +21,11 @@ setopt HIST_REDUCE_BLANKS    # Remove unnecessary blank lines
 
 # Key bindings
 bindkey '\e[H' beginning-of-line
+bindkey '^[OH' beginning-of-line
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[7~' beginning-of-line
 bindkey '\e[F' end-of-line
+bindkey '^[OF' end-of-line
 bindkey '\e[4~' end-of-line
 bindkey '\e[8~' end-of-line
 bindkey '\e[3~' delete-char
@@ -52,42 +54,28 @@ if [ -f /etc/zsh_command_not_found ]; then
 	source /etc/zsh_command_not_found
 fi
 
-# Enable fzf shell integration (github.com/junegunn/fzf). Install with:
-#  git clone --depth 1 -b v0.54.0 https://github.com/junegunn/fzf ~/.local/share/fzf
-#  ~/.local/share/fzf/install --xdg --key-bindings --completion --no-update-rc
-if [ -f ~/.config/fzf/fzf.zsh ]; then
-	source ~/.config/fzf/fzf.zsh
+# Enable fzf shell integration - https://github.com/junegunn/fzf.
+if [ -x "$(command -v fzf)" ]; then
+	source <(fzf --zsh)
 fi
 
-# Enable z shell integration (github.com/rupa/z). Install with:
-#  git clone --depth 1 -b v1.12 https://github.com/rupa/z ~/.local/share/z
-#  mkdir -p ~/.local/state/z
-if [ -f ~/.local/share/z/z.sh ]; then
-        export _Z_DATA="$HOME/.local/state/z/z_data"
-        source ~/.local/share/z/z.sh
+# Enable z shell integration - https://github.com/rupa/z.
+if [ -f "$XDG_DATA_HOME/z/z.sh" ]; then
+        export _Z_DATA="$XDG_STATE_HOME/z"
+        source "$XDG_DATA_HOME/z/z.sh"
 fi
 
-# Initialize conda/mamba/micromamba (mamba.readthedocs.io). Install with:
-#  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
-#  | tar -C ~/.local -xvj bin/micromamba
-if [ -x "$HOME/conda/bin/conda" ]; then
-	eval "$($HOME'/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-	if [ -f "$HOME/conda/etc/profile.d/mamba.sh" ]; then
-		source "$HOME/conda/etc/profile.d/mamba.sh"
-	fi
-fi
+# Initialize micromamba - https://mamba.readthedocs.io.
 if [ -x "$(command -v micromamba)" ]; then
 	export MAMBA_EXE="$(command -v micromamba)"
-	export MAMBA_ROOT_PREFIX="$HOME/conda"
-	eval "$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+	export MAMBA_ROOT_PREFIX="$XDG_DATA_HOME/conda"
+	eval "$("$MAMBA_EXE" shell hook --shell zsh \
+		--root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 fi
 
-# Initialize pyenv
-eval "$(pyenv init -)"
-
 # Source additional files
-if [ -d ~/.config/shell ]; then
-	for f in ~/.config/shell/*.(z|)sh; do
+if [ -d "$XDG_CONFIG_HOME/shell" ]; then
+	for f in "$XDG_CONFIG_HOME"/shell/*.(z|)sh; do
 		source $f
 	done
 	unset f
@@ -107,7 +95,7 @@ function plugin-load {
     fi
     if [[ ! -e $initfile ]]; then
       initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
-      (( $#initfiles )) || { echo >&2 "No init file found '$repo'." && continue }
+      (( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
       ln -sf $initfiles[1] $initfile
     fi
     fpath+=$plugdir

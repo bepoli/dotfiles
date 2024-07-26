@@ -28,7 +28,14 @@ fi
 alias fsort='LC_ALL=C sort'
 [ -x "$(command -v stow)" ] && alias stow='stow --no-folding'
 if [ -x "$(command -v tmux)" ]; then
-	alias tm='tmux attach-session -d'
+	tm() {
+		if [ -n "$1" ]; then
+			tmux attach-session -d -t "$1"
+		else
+			tmux attach-session -d
+		fi
+
+	}
 	alias tmc='tmux load-buffer'
 	alias tmv='tmux save-buffer'
 fi
