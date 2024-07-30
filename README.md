@@ -15,7 +15,7 @@ To configure local and remote dotfiles repository location:
 ```
 Usage: bootstrap [-d OUTPUT_DIRECTORY] [-r REMOTE_URL]
 Example:
-./bootstrap -d $HOME/.dotfiles -r https://a_galaxy_far_far_away.com/this_is_me/these_are_my_dotfiles.git
+./bootstrap -d $HOME/.dotfiles -r https://github.com/$USER/dotfiles.git
 ```
 
 ## Uninstall
