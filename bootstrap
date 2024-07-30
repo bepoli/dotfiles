@@ -36,3 +36,4 @@ config config --local status.showUntrackedFiles no
 
 # set hardcoded stuff
 echo hsts-file \= "$XDG_CACHE_HOME"/wget-hsts >> "$XDG_CONFIG_HOME/wgetrc"
+mkdir -p "$XDG_STATE_HOME"/R
