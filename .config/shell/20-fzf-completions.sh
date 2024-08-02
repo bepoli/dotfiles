@@ -1,5 +1,3 @@
-# ~/.config/shell/fzf-completion.bash
-
 # Run only if fzf has been initialized
 if ! declare -F _fzf_complete &>/dev/null; then
 	return 0
@@ -23,7 +21,7 @@ _fzf_complete_scontrol_post() {
 [ -n "$BASH" ] && complete -F _fzf_complete_scontrol -o default -o bashdefault scancel || :
 
 # Z integration (https://github.com/junegunn/fzf/wiki/examples#z)
-if type -w _z &>/dev/null; then
+if typeset -f _z &>/dev/null; then
 	unalias z 2> /dev/null
 	function z() {
 		[ $# -gt 0 ] && _z "$*" && return

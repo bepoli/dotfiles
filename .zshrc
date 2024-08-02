@@ -1,23 +1,25 @@
-# Set propmpt
+#  _____    _
+# |__  /___| |__  _ __ ___
+#   / // __| '_ \| '__/ __|
+#  / /_\__ \ | | | | | (__
+# /____|___/_| |_|_|  \___|
+#
+
+setopt PROMPT_SUBST
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt NO_CASE_GLOB
+setopt interactive_comments
+
 autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
-setopt PROMPT_SUBST
 PROMPT='%(1j.[%j] .)'\
 "$([ -n "$SSH_TTY" ] && echo '%F{yellow}%M%F{white}:' || :)"\
 '%F{cyan}%2c %F{magenta}${vcs_info_msg_0_}%(?.%F{green}.%F{red})%\▸%f '
 
-# History settings
-export HISTFILE="$XDG_STATE_HOME"/zsh/history
-export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
-export HISTSIZE=50000        # History lines stored in mememory
-export SAVEHIST=50000        # History lines stored on disk
-setopt INC_APPEND_HISTORY    # Immediately append commands to history file
-setopt HIST_IGNORE_ALL_DUPS  # Never add duplicate entries
-setopt HIST_IGNORE_SPACE     # Ignore commands that start with a space
-setopt HIST_REDUCE_BLANKS    # Remove unnecessary blank lines
-
-# Key bindings
 bindkey '\e[H' beginning-of-line
 bindkey '^[OH' beginning-of-line
 bindkey '\e[1~' beginning-of-line
@@ -30,57 +32,41 @@ bindkey '\e[3~' delete-char
 bindkey '\e[1;5D' backward-word
 bindkey '\e[1;5C' forward-word
 
-# Enable completion
-zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
-fpath+="$XDG_DATA_HOME"/zsh/site-functions
+fpath+=~/.local/share/zsh/site-functions
 autoload -Uz compinit
-compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
-
-# Enable completion for special dirs (. and ..)
+compinit
 zstyle ':completion:*' special-dirs true
 
-# Make tab-completion case insensitive
-setopt NO_CASE_GLOB
-
-# Enable comments when working in an interactive shell
-setopt interactive_comments
-
-# Customize characters used as word separators
-export WORDCHARS='*?!_-.~=/&;|#$%^()[]{}<>'
-
 # Enable command-not-found, if present
-if [ -f /etc/zsh_command_not_found ]; then
-	source /etc/zsh_command_not_found
+if ! typeset -f command_not_found_handler &>/dev/null; then
+	if [ -f /etc/zsh_command_not_found ]; then
+		source /etc/zsh_command_not_found
+	fi
 fi
 
-# Enable fzf shell integration - https://github.com/junegunn/fzf.
-if [ -x "$(command -v fzf)" ]; then
-	source <(fzf --zsh)
-fi
+# fzf - https://github.com/junegunn/fzf
+[ -x "$(command -v fzf)" ] && source <(fzf --zsh) || -
 
-# Enable z shell integration - https://github.com/rupa/z.
-if [ -f "$XDG_DATA_HOME/z/z.sh" ]; then
-        export _Z_DATA="$XDG_STATE_HOME/z"
-        source "$XDG_DATA_HOME/z/z.sh"
-fi
+# zoxide - https://github.com/ajeetdsouza/zoxide
+[ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)" || -
 
-# Initialize micromamba - https://mamba.readthedocs.io.
+# micromamba - https://mamba.readthedocs.io
 if [ -x "$(command -v micromamba)" ]; then
 	export MAMBA_EXE="$(command -v micromamba)"
-	export MAMBA_ROOT_PREFIX="$XDG_DATA_HOME/conda"
+	export MAMBA_ROOT_PREFIX=~/.local/share/conda
 	eval "$("$MAMBA_EXE" shell hook --shell zsh \
 		--root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 fi
 
-# Source additional files
-if [ -d "$XDG_CONFIG_HOME/shell" ]; then
-	for f in "$XDG_CONFIG_HOME"/shell/*.(z|)sh; do
+# source other config files
+if [ -d ~/.config/shell ]; then
+	for f in ~/.config/shell/*.(z|)sh; do
 		source $f
 	done
 	unset f
 fi
 
-# Plugins management (https://github.com/mattmc3/zsh_unplugged)
+# plugins management - https://github.com/mattmc3/zsh_unplugged
 function plugin-load {
   local repo plugdir initfile initfiles=()
   : ${ZPLUGINDIR:=${HOME}/.local/share/zsh/plugins}
@@ -101,8 +87,6 @@ function plugin-load {
     (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
   done
 }
-
-# Load plugins
 plugin-load zsh-users/zsh-autosuggestions
 plugin-load zsh-users/zsh-syntax-highlighting
 plugin-load zsh-users/zsh-history-substring-search && \
