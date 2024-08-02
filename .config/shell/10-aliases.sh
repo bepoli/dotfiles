@@ -16,7 +16,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 
 # Quality-of-life aliases
-[ -x "$(command -v batcat)" ] && alias bat='batcat' || -
+[ -x "$(command -v batcat)" ] && alias bat='batcat' || :
 alias la='ls -A'
 alias l='ls -CF'
 alias ll='ls -alF'
@@ -37,8 +37,8 @@ if [ -x "$(command -v tmux)" ]; then
 	alias tmc='tmux load-buffer'
 	alias tmv='tmux save-buffer'
 fi
-[ -x "$(command -v vim)" ] && alias vi='vim' || -
-[ -x "$(command -v nvim)" ] && alias vim='nvim' || -
+[ -x "$(command -v vim)" ] && alias vi='vim' || :
+[ -x "$(command -v nvim)" ] && alias vim='nvim' || :
 if command -v micromamba &>/dev/null; then
 	alias c='micromamba'
 	! command -v mamba &>/dev/null && alias mamba='micromamba'
@@ -49,7 +49,7 @@ elif command -v conda &>/dev/null; then
 	alias c='conda'
 fi
 alias ca='c activate' cda='c deactivate'
-[ -x "$(command -v zoxide)" ] && alias z='zi' || -
+[ -x "$(command -v zoxide)" ] && alias z='zi' || :
 
 # Slurm shortcuts
 if [ -x "$(command -v sbatch)" ]; then

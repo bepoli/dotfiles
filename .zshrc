@@ -45,10 +45,10 @@ if ! typeset -f command_not_found_handler &>/dev/null; then
 fi
 
 # fzf - https://github.com/junegunn/fzf
-[ -x "$(command -v fzf)" ] && source <(fzf --zsh) || -
+[ -x "$(command -v fzf)" ] && source <(fzf --zsh) || :
 
 # zoxide - https://github.com/ajeetdsouza/zoxide
-[ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)" || -
+[ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)" || :
 
 # micromamba - https://mamba.readthedocs.io
 if [ -x "$(command -v micromamba)" ]; then
