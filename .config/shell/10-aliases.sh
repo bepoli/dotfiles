@@ -53,7 +53,7 @@ alias ca='c activate' cda='c deactivate'
 
 # Slurm shortcuts
 if [ -x "$(command -v sbatch)" ]; then
-	__jobcols() { printf $((${COLUMNS}/4)); }
+	__jobcols() { printf '%s' "$((COLUMNS / 4))"; }
 	alias squeue='squeue -o "%.18i %.9P %.$(__jobcols)j %.8u %.2t %.10M %.6D %R"'
 	alias squeueu='squeue -u $USER'
 	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
@@ -85,13 +85,13 @@ wcu() {
 
 # Add the executed command line to output's header
 cmdump() {
-	echo -E "# $@"
-	$@
+	echo -E "# $*"
+	"$@"
 }
 
 # Create directory and enter it
 cmkdir() {
-	mkdir -p $1 && cd $1
+	mkdir -p "$1" && cd "$1" || return
 }
 
 # Check resource usage by user
@@ -105,19 +105,19 @@ userusage() {
 # Wrapper for `zcat <file.gz> | head`
 # usage: zhead <file.gz> [10]
 zhead() {
-	if [ -z $2 ]; then
+	if [ -z "$2" ]; then
 		local n=10
 	else
-		local n=$2
+		local n="$2"
 	fi
-	zcat $1 | head -n $n
+	zcat "$1" | head -n "$n"
 }
 
 # Quickly remove large directories with rsync
 rsyncrm() {
 	mkdir rsrm_empty
-	rsync -a --delete rsrm_empty/ $1
-	rmdir rsrm_empty $1
+	rsync -a --delete rsrm_empty/ "$1"
+	rmdir rsrm_empty "$1"
 }
 
 # Scrape biocontainers
@@ -125,8 +125,8 @@ biocontainers() {
 	local url="https://quay.io/api/v1/repository/biocontainers"
 	local sprefix="https://depot.galaxyproject.org/singularity"
 	local dprefix="quay.io/biocontainers"
-	curl -s -X GET $url/$1/tag/ \
-	| python3 -c "import json,sys;from datetime import datetime;\
+	curl -s -X GET "$url"/"$1"/tag/ |
+		python3 -c "import json,sys;from datetime import datetime;\
 		obj=json.load(sys.stdin);\
 		print('docker_image\tsingularity_image\tlast_modified');\
 		[print('$dprefix/$1:{}\t$sprefix/$1:{}\t{}'.format(\
@@ -135,28 +135,28 @@ biocontainers() {
 }
 biocontainers_galaxy() {
 	local url="https://depot.galaxyproject.org/singularity/"
-	curl -s $url | sed 's/\r$//' | grep -v "\-$" | grep "^<a href" \
-	| sed 's/<[^<>]*>//g' \
-	| awk -vurl=$url '{print url""$1"\t"$2"-"$3}'
+	curl -s $url | sed 's/\r$//' | grep -v "\-$" | grep "^<a href" |
+		sed 's/<[^<>]*>//g' |
+		awk -vurl=$url '{print url""$1"\t"$2"-"$3}'
 }
 
 # SSH to current directory
 sshpwd() {
 	local shell=${SHELL:-bash}
 	case "$shell" in
-		*/sh)
-			local args=""
-			;;
-		*)
-			local args=${2:-"--login"}
-			;;
+	*/sh)
+		local args=""
+		;;
+	*)
+		local args=${2:-"--login"}
+		;;
 	esac
-	ssh -t $1 "cd $PWD; $shell $args"
+	ssh -t "$1" "cd $PWD; $shell $args"
 }
 
 # Get numbered header COLUMNS
 nheader() {
-	head -n 1 $1 | tr '\t' '\n' | nl
+	head -n 1 "$1" | tr '\t' '\n' | nl
 }
 
 # Generate duckduckgo email alias
@@ -164,6 +164,6 @@ duck() {
 	curl -s -H "Content-Type: application/json" \
 		-H "Authorization: Bearer ${DUCK_TOKEN:-$1}" \
 		-X POST \
-		https://quack.duckduckgo.com/api/email/addresses \
-		| sed 's/.*"\([^"]\+\)"}/\1@duck.com\n/'
+		https://quack.duckduckgo.com/api/email/addresses |
+		sed 's/.*"\([^"]\+\)"}/\1@duck.com\n/'
 }
