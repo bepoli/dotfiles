@@ -1,14 +1,7 @@
 #!/bin/sh
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
-
-mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
-
 # parse arguments and set defaults
-REPODIR="$XDG_CONFIG_HOME/dotfiles"
+REPODIR="$HOME/.config/dotfiles"
 REMOTE='https://github.com/bepoli/dotfiles'
 while getopts 'd:r:' opt; do
     case "$opt" in
@@ -33,7 +26,4 @@ if [ $? -gt 0 ]; then
 fi
 config sparse-checkout set --no-cone '/**' '!bootstrap' '!README.md'
 config config --local status.showUntrackedFiles no
-
-# set hardcoded stuff
-echo hsts-file \= "$XDG_CACHE_HOME"/wget-hsts >> "$XDG_CONFIG_HOME/wgetrc"
-mkdir -p "$XDG_STATE_HOME"/R
+unset REPODIR REMOTE
