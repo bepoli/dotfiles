@@ -70,13 +70,15 @@ fi
 function plugin-load {
 	local repo plugdir initfile initfiles=()
 	local ZPLUGLOC="$HOME/.local/share/zsh/plugins"
-	local ZPLUGSYS='/usr/local/share/zsh/plugins'
+	local ZPLUGSYS=('/usr/local/share/zsh/plugins' '/usr/share/zsh/plugins')
 	for repo in $@; do
 		plugdir=$ZPLUGLOC/${repo:t}
 		if [[ -d $ZPLUGLOC/${repo:t} ]]; then
 			plugdir=$ZPLUGLOC/${repo:t}
-		elif [[ -d $ZPLUGSYS/${repo:t} ]]; then
-			plugdir=$ZPLUGSYS/${repo:t}
+		elif [[ -d $ZPLUGSYS[1]/${repo:t} ]]; then
+			plugdir=$ZPLUGSYS[1]/${repo:t}
+		elif [[ -d $ZPLUGSYS[2]/${repo:t} ]]; then
+			plugdir=$ZPLUGSYS[2]/${repo:t}
 		else
 			echo "Cloning $repo..."
 			plugdir=$ZPLUGLOC/${repo:t}
