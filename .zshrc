@@ -66,26 +66,31 @@ if [ -d ~/.config/shell ]; then
 	unset f
 fi
 
-# plugins management - https://github.com/mattmc3/zsh_unplugged
+# plugins management, adapted from https://github.com/mattmc3/zsh_unplugged
 function plugin-load {
-  local repo plugdir initfile initfiles=()
-  : ${ZPLUGINDIR:=${HOME}/.local/share/zsh/plugins}
-  for repo in $@; do
-    plugdir=$ZPLUGINDIR/${repo:t}
-    initfile=$plugdir/${repo:t}.plugin.zsh
-    if [[ ! -d $plugdir ]]; then
-      echo "Cloning $repo..."
-      git clone -q --depth 1 --recursive --shallow-submodules \
-        https://github.com/$repo $plugdir
-    fi
-    if [[ ! -e $initfile ]]; then
-      initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
-      (( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
-      ln -sf $initfiles[1] $initfile
-    fi
-    fpath+=$plugdir
-    (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
-  done
+	local repo plugdir initfile initfiles=()
+	local ZPLUGLOC="$HOME/.local/share/zsh/plugins"
+	local ZPLUGSYS='/usr/local/share/zsh/plugins'
+	for repo in $@; do
+		plugdir=$ZPLUGLOC/${repo:t}
+		if [[ -d $ZPLUGLOC/${repo:t} ]]; then
+			plugdir=$ZPLUGLOC/${repo:t}
+		elif [[ -d $ZPLUGSYS/${repo:t} ]]; then
+			plugdir=$ZPLUGSYS/${repo:t}
+		else
+			echo "Cloning $repo..."
+			plugdir=$ZPLUGLOC/${repo:t}
+			git clone -q --depth 1 --recursive --shallow-submodules \
+				https://github.com/$repo $plugdir
+		fi
+		initfile=$plugdir/${repo:t}.plugin.zsh
+		if [[ ! -e $initfile ]]; then
+			initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
+			(( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
+			ln -sf $initfiles[1] $initfile
+		fi
+		(( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
+	done
 }
 plugin-load zsh-users/zsh-autosuggestions
 plugin-load zsh-users/zsh-syntax-highlighting
