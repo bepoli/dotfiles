@@ -229,6 +229,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  'tpope/vim-repeat', -- Enable repeating with "." in some plugins
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'tpope/vim-surround', -- Shortcuts to edit surroundings
   'lambdalisue/vim-suda', -- Read/Write with `sudo` from within nvim
