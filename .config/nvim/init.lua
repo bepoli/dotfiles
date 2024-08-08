@@ -230,6 +230,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-surround', -- Shortcuts to edit surroundings
   'lambdalisue/vim-suda', -- Read/Write with `sudo` from within nvim
 
   -- NOTE: Plugins can also be added by using a table,
