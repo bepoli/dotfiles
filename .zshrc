@@ -61,7 +61,7 @@ if [ -x "$(command -v micromamba)" ]; then
 fi
 
 # source other config files
-for f in "${XDG_CONFIG_HOME:-$HOME/.config}/shell"/*.{sh,zsh}; do
+for f in "${XDG_CONFIG_HOME:-$HOME/.config}/shell"/*.(sh|zsh); do
 	source "$f"
 done
 unset f
