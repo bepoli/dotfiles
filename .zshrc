@@ -61,7 +61,7 @@ if [ -x "$(command -v micromamba)" ]; then
 fi
 
 # source other config files
-for f in "${XDG_CONFIG_HOME:-$HOME/.config}/shell"/*.(sh|zsh); do
+for f in "${XDG_CONFIG_HOME:-$HOME/.config}"/shell/*.(sh|zsh); do
   source "$f"
 done
 unset f
@@ -82,18 +82,17 @@ function plugin-load {
       fi
     done
     if [[ ! -d "$plugdir" ]]; then
-      echo "Cloning $repo..."
-      git clone -q --depth 1 --recursive --shallow-submodules \
-        https://github.com/$repo $plugdir
+      printf "Clone $repo ? [yN]"
+      if read -q; then
+        git clone -q --depth 1 --recursive --shallow-submodules \
+          https://github.com/"$repo" "$plugdir"
+      else
+        continue
+      fi
     fi
-    initfile=$plugdir/${repo:t}.plugin.zsh
-    if [[ ! -e $initfile ]]; then
-      initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
-      (( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
-      ln -sf $initfiles[1] $initfile
-    fi
-    fpath+="$plugdir"
-    (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
+    initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
+    (( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
+    source $initfiles[1]
   done
 }
 plugin-load zsh-users/zsh-autosuggestions
