@@ -3,7 +3,7 @@
 #   / // __| '_ \| '__/ __|
 #  / /_\__ \ | | | | | (__
 # /____|___/_| |_|_|  \___|
-#
+# vim: ts=2 sts=2 sw=2 et
 
 setopt PROMPT_SUBST
 setopt INC_APPEND_HISTORY
@@ -39,11 +39,11 @@ zstyle ':completion:*' special-dirs true
 
 # Enable command-not-found, if present
 if ! typeset -f command_not_found_handler &>/dev/null; then
-	if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
-		source /usr/share/doc/pkgfile/command-not-found.zsh
-	elif [ -f /etc/zsh_command_not_found ]; then
-		source /etc/zsh_command_not_found
-	fi
+  if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
+    source /usr/share/doc/pkgfile/command-not-found.zsh
+  elif [ -f /etc/zsh_command_not_found ]; then
+    source /etc/zsh_command_not_found
+  fi
 fi
 
 # fzf - https://github.com/junegunn/fzf
@@ -54,49 +54,50 @@ fi
 
 # micromamba - https://mamba.readthedocs.io
 if [ -x "$(command -v micromamba)" ]; then
-	export MAMBA_EXE="$(command -v micromamba)"
-	export MAMBA_ROOT_PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/conda"
-	eval "$("$MAMBA_EXE" shell hook --shell zsh \
-		--root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+  export MAMBA_EXE="$(command -v micromamba)"
+  export MAMBA_ROOT_PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/conda"
+  eval "$("$MAMBA_EXE" shell hook --shell zsh \
+    --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 fi
 
 # source other config files
 for f in "${XDG_CONFIG_HOME:-$HOME/.config}/shell"/*.(sh|zsh); do
-	source "$f"
+  source "$f"
 done
 unset f
 
-# plugins management, adapted from https://github.com/mattmc3/zsh_unplugged
+# plugins management, edited from https://github.com/mattmc3/zsh_unplugged
 function plugin-load {
-	local repo plugdir initfile initfiles=()
-	local ZPLUGLOC="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
-	local ZPLUGSYS=('/usr/local/share/zsh/plugins' '/usr/share/zsh/plugins')
-	for repo in $@; do
-		plugdir=$ZPLUGLOC/${repo:t}
-		if [[ -d $ZPLUGLOC/${repo:t} ]]; then
-			plugdir=$ZPLUGLOC/${repo:t}
-		elif [[ -d $ZPLUGSYS[1]/${repo:t} ]]; then
-			plugdir=$ZPLUGSYS[1]/${repo:t}
-		elif [[ -d $ZPLUGSYS[2]/${repo:t} ]]; then
-			plugdir=$ZPLUGSYS[2]/${repo:t}
-		else
-			echo "Cloning $repo..."
-			plugdir=$ZPLUGLOC/${repo:t}
-			git clone -q --depth 1 --recursive --shallow-submodules \
-				https://github.com/$repo $plugdir
-		fi
-		initfile=$plugdir/${repo:t}.plugin.zsh
-		if [[ ! -e $initfile ]]; then
-			initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
-			(( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
-			ln -sf $initfiles[1] $initfile
-		fi
-		fpath+="$plugdir"
-		(( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
-	done
+  local repo plugdir initfile initfiles zpd=()
+  local ZPLUGDIRS=(
+    "${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
+    '/usr/local/share/zsh/plugins'
+    '/usr/share/zsh/plugins'
+  )
+  for repo in $@; do
+    for zpd in $ZPLUGDIRS; do
+      plugdir="$zpd/${repo:t}"
+      if [[ -d "$plugdir" ]]; then
+        break
+      fi
+    done
+    if [[ ! -d "$plugdir" ]]; then
+      echo "Cloning $repo..."
+      git clone -q --depth 1 --recursive --shallow-submodules \
+        https://github.com/$repo $plugdir
+    fi
+    initfile=$plugdir/${repo:t}.plugin.zsh
+    if [[ ! -e $initfile ]]; then
+      initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
+      (( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
+      ln -sf $initfiles[1] $initfile
+    fi
+    fpath+="$plugdir"
+    (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
+  done
 }
 plugin-load zsh-users/zsh-autosuggestions
 plugin-load zsh-users/zsh-syntax-highlighting
 plugin-load zsh-users/zsh-history-substring-search && \
-	bindkey '^[[A' history-substring-search-up && \
-	bindkey '^[[B' history-substring-search-down
+  bindkey '^[[A' history-substring-search-up && \
+  bindkey '^[[B' history-substring-search-down
