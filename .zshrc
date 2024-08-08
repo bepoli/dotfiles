@@ -68,7 +68,7 @@ unset f
 
 # plugins management, edited from https://github.com/mattmc3/zsh_unplugged
 function plugin-load {
-  local repo plugdir initfile initfiles zpd=()
+  local repo plugdir initfiles zpd=()
   local ZPLUGDIRS=(
     "${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
     '/usr/local/share/zsh/plugins'
