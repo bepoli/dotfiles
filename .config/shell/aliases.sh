@@ -80,7 +80,7 @@ revc() {
 
 # count unique lines; sortcut for `sort -u | wc -l`
 wcu() {
-	sort -u $1 | wc -l
+	sort -u "$1" | wc -l
 }
 
 # Add the executed command line to output's header
