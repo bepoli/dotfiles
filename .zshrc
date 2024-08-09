@@ -38,7 +38,7 @@ compinit
 zstyle ':completion:*' special-dirs true
 
 # Set LS_COLORS
-[ -x "$(command -v dircolors)" ] && eval "$(dircolors -b)" || :
+[ -x "$(command -v dircolors)" ] && eval "$(dircolors -b)"
 
 # Enable command-not-found, if present and not already enabled
 if ! typeset -f command_not_found_handler &>/dev/null; then
@@ -50,10 +50,10 @@ if ! typeset -f command_not_found_handler &>/dev/null; then
 fi
 
 # fzf - https://github.com/junegunn/fzf
-[ -x "$(command -v fzf)" ] && source <(fzf --zsh) ||:
+[ -x "$(command -v fzf)" ] && source <(fzf --zsh)
 
 # zoxide - https://github.com/ajeetdsouza/zoxide
-[ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)" ||:
+[ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)"
 
 # micromamba - https://mamba.readthedocs.io
 if [ -x "$(command -v micromamba)" ]; then
@@ -69,35 +69,7 @@ for f in "${XDG_CONFIG_HOME:-$HOME/.config}"/shell/*.(sh|zsh); do
 done
 unset f
 
-# plugins management, edited from https://github.com/mattmc3/zsh_unplugged
-function plugin-load {
-  local repo plugdir initfiles zpd=()
-  local ZPLUGDIRS=(
-    "${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
-    '/usr/local/share/zsh/plugins'
-    '/usr/share/zsh/plugins'
-  )
-  for repo in $@; do
-    for zpd in $ZPLUGDIRS; do
-      plugdir="$zpd/${repo:t}"
-      if [[ -d "$plugdir" ]]; then
-        break
-      fi
-    done
-    if [[ ! -d "$plugdir" ]]; then
-      printf "Clone $repo ? [yN]"
-      if read -q; then
-        git clone -q --depth 1 --recursive --shallow-submodules \
-          https://github.com/"$repo" "$plugdir"
-      else
-        continue
-      fi
-    fi
-    initfiles=($plugdir/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
-    (( $#initfiles )) || {echo >&2 "No init file found '$repo'." && continue}
-    source $initfiles[1]
-  done
-}
+# load plugins
 plugin-load zsh-users/zsh-autosuggestions
 plugin-load zsh-users/zsh-syntax-highlighting
 plugin-load zsh-users/zsh-history-substring-search && \
