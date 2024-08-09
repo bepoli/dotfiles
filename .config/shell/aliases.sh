@@ -97,9 +97,9 @@ cmkdir() {
 # Check resource usage by user
 userusage() {
 	ps aux | awk '{print $1,$3,$6,$8}' | sort -u | awk '
-	BEGIN {print "USER\t%CPU\tRSS(GB)"}
-	{ rss[$1]+=$3; cpu[$1]+=$2 }
-	END { for(i in rss){OFS="\t"; print i,cpu[i],rss[i]/1000000} }'
+  BEGIN {print "USER\t%CPU\tRSS(GB)"}
+  { rss[$1]+=$3; cpu[$1]+=$2 }
+  END { for(i in rss){OFS="\t"; print i,cpu[i],rss[i]/1000000} }'
 }
 
 # Wrapper for `zcat <file.gz> | head`
@@ -127,11 +127,11 @@ biocontainers() {
 	local dprefix="quay.io/biocontainers"
 	curl -s -X GET "$url"/"$1"/tag/ |
 		python3 -c "import json,sys;from datetime import datetime;\
-		obj=json.load(sys.stdin);\
-		print('docker_image\tsingularity_image\tlast_modified');\
-		[print('$dprefix/$1:{}\t$sprefix/$1:{}\t{}'.format(\
-		  x['name'], x['name'], datetime.strptime(x['last_modified'], '%a, %d %b %Y %H:%M:%S -0000')\
-		)) for x in obj['tags']]"
+    obj=json.load(sys.stdin);\
+    print('docker_image\tsingularity_image\tlast_modified');\
+    [print('$dprefix/$1:{}\t$sprefix/$1:{}\t{}'.format(\
+      x['name'], x['name'], datetime.strptime(x['last_modified'], '%a, %d %b %Y %H:%M:%S -0000')\
+    )) for x in obj['tags']]"
 }
 biocontainers_galaxy() {
 	local url="https://depot.galaxyproject.org/singularity/"
