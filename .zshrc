@@ -37,7 +37,10 @@ autoload -Uz compinit
 compinit
 zstyle ':completion:*' special-dirs true
 
-# Enable command-not-found, if present
+# Set LS_COLORS
+[ -x "$(command -v dircolors)" ] && eval "$(dircolors -b)" || :
+
+# Enable command-not-found, if present and not already enabled
 if ! typeset -f command_not_found_handler &>/dev/null; then
   if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
