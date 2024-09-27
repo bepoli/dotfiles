@@ -106,3 +106,12 @@ duck() {
 		https://quack.duckduckgo.com/api/email/addresses |
 		sed 's/.*"\([^"]\+\)"}/\1@duck.com\n/'
 }
+
+# Automatize python virtual environments
+venv() {
+	local venv_dir="${1:-.venv}"
+	if [ ! -d "$venv_dir" ]; then
+		python -m venv "$venv_dir"
+	fi
+	source "$venv_dir/bin/activate"
+}
