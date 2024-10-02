@@ -44,7 +44,7 @@ elif command -v conda &>/dev/null; then
 	alias c='conda'
 fi
 alias ca='c activate' cda='c deactivate'
-[ -x "$(command -v zoxide)" ] && alias z='zi'
+[ -x "$(command -v zoxide)" ] && [ -x "$(command -v fzf)" ] && alias z='zi'
 
 # Slurm shortcuts
 if [ -x "$(command -v sbatch)" ]; then
