@@ -8,6 +8,15 @@ body() {
 	"$@"
 }
 
+# Complement a DNA sequence
+cdna() {
+	if [ -n "$1" ]; then
+		echo "$1" | tr 'ACGTRYKMBDHV' 'TGCAYRMKVHDB'
+	else
+		tr 'ACGTRYKMBDHV' 'TGCAYRMKVHDB'
+	fi
+}
+
 # Reverse complement a DNA sequence
 revc() {
 	if [ -n "$1" ]; then
