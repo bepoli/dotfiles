@@ -32,4 +32,6 @@ augroup vimStartup
     \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
     \ |   exe "normal! g`\""
     \ | endif
+  " Force syntax sync after entering the buffer or leaving insert mode
+  autocmd BufEnter,InsertLeave * :syntax sync fromstart
 augroup END
