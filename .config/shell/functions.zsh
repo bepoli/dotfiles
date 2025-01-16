@@ -14,6 +14,8 @@ plugin-load() {
       fi
     done
     if [[ ! -d "$plugdir" ]]; then
+      mkdir -p $ZPLUGDIRS[1]
+      plugdir=$ZPLUGDIRS[1]/${repo:t}
       printf "Clone $repo ? [yN]"
       if read -q; then
         git clone -q --depth 1 --recursive --shallow-submodules \
