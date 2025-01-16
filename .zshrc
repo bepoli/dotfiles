@@ -50,7 +50,11 @@ if ! typeset -f command_not_found_handler &>/dev/null; then
 fi
 
 # fzf - https://github.com/junegunn/fzf
-[ -x "$(command -v fzf)" ] && source <(fzf --zsh)
+if [ -x "$(command -v fzf)" ]; then
+  if zsh --version | grep -qE '^((0\.(4[8-9])|([5-9][0-9]))|1)'; then
+    source <(fzf --zsh)
+  fi
+fi
 
 # zoxide - https://github.com/ajeetdsouza/zoxide
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init zsh)"
