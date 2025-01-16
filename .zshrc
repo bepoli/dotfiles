@@ -51,7 +51,7 @@ fi
 
 # fzf - https://github.com/junegunn/fzf
 if [ -x "$(command -v fzf)" ]; then
-  if zsh --version | grep -qE '^((0\.(4[8-9])|([5-9][0-9]))|1)'; then
+  if fzf --version | grep -qE '^((0\.(4[8-9])|([5-9][0-9]))|1)'; then
     source <(fzf --zsh)
   fi
 fi
