@@ -1,6 +1,0 @@
-prefix_path: "~/.local/share/condax"
-link_destination: "~/.local/bin"
-channels:
-    - conda-forge
-    - bioconda
-    - nodefaults
