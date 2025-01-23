@@ -16,16 +16,17 @@ while getopts 'd:r:' opt; do
 done
 
 # initialize dotfiles
+cd "$HOME"
 git clone --bare "$REMOTE" "$REPODIR"
 alias config='git --git-dir="$REPODIR" --work-tree="$HOME"'
-mkdir -p "$DOTBACKUP"
 for f in $(config ls-tree --full-tree -r HEAD | cut -f2); do
-    if [ -f "$f" ]; then
-        mkdir -p "$(dirname $f)"
-        mv -f "$f" "$DOTBACKUP"/$f
+    d="$(dirname $f)"
+    if [ -f "$HOME/$f" ]; then
+        mkdir -p "$DOTBACKUP/$d"
+        mv -f "$HOME/$f" "$DOTBACKUP/$f"
     fi
 done
 config checkout
 config sparse-checkout set --no-cone '/**' '!bootstrap' '!README.md' '!LICENSE'
 config config --local status.showUntrackedFiles no
-unset REPODIR DOTBACKUP REMOTE
+unset REPODIR DOTBACKUP REMOTE d f
