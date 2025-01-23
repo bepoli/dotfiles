@@ -2,6 +2,7 @@
 
 # parse arguments and set defaults
 REPODIR="$HOME/.config/dotfiles"
+DOTBACKUP="${REPODIR}-backup"
 REMOTE='https://github.com/bepoli/dotfiles'
 while getopts 'd:r:' opt; do
     case "$opt" in
@@ -17,13 +18,13 @@ done
 # initialize dotfiles
 git clone --bare "$REMOTE" "$REPODIR"
 alias config='git --git-dir="$REPODIR" --work-tree="$HOME"'
-config checkout
-if [ $? -gt 0 ]; then
-    mkdir -p ${REPODIR}-backup
-    config checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs dirname | xargs -I{} mkdir -p "$REPODIR"-backup/{}
-    config checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | xargs -I{} mv {} "$REPODIR"-backup/{}
-    config checkout
-fi
+mkdir -p "$DOTBACKUP"
+for f in $(config ls-files); do
+    if [ -f "$f" ]; then
+        mkdir -p "$(dirname $f)"
+        mv -f "$f" "$DOTBACKUP"/$f
+    fi
+done
 config sparse-checkout set --no-cone '/**' '!bootstrap' '!README.md' '!LICENSE'
 config config --local status.showUntrackedFiles no
-unset REPODIR REMOTE
+unset REPODIR DOTBACKUP REMOTE
