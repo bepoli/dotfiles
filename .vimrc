@@ -24,6 +24,9 @@ set mouse=a
 set list
 set listchars=tab:»\ ,trail:·,lead:·,multispace:·,nbsp:·,precedes:←,extends:→
 
+" Remaps
+nnoremap <F3> :set list! list?<cr>
+
 " Colors
 hi SpecialKey ctermfg=8
 hi ColorColumn ctermbg=236
