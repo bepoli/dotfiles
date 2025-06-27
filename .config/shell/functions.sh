@@ -28,7 +28,11 @@ revc() {
 
 # count unique lines; sortcut for `sort -u | wc -l`
 wcu() {
-	sort -u "$1" | wc -l
+	if [ -n "$1" ]; then
+		sort -u "$1" | wc -l
+	else
+		sort -u | wc -l
+	fi
 }
 
 # Add the executed command line to output's header
