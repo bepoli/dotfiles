@@ -22,6 +22,9 @@ if [ ! -x "$(command -v realpath)" ] && [ -x "$(command -v readlink)" ]; then
 fi
 alias fsort='LC_ALL=C sort'
 [ -x "$(command -v stow)" ] && alias stow='stow --no-folding'
+[ -x "$(command -v zoxide)" ] && [ -x "$(command -v fzf)" ] && alias z='zi'
+
+# Tmux aliases
 if [ -x "$(command -v tmux)" ]; then
 	tm() {
 		if [ -n "$1" ]; then
@@ -34,6 +37,8 @@ if [ -x "$(command -v tmux)" ]; then
 	alias tmc='tmux load-buffer'
 	alias tmv='tmux save-buffer'
 fi
+
+# Conda aliases
 if command -v micromamba &>/dev/null; then
 	alias c='micromamba'
 	! command -v mamba &>/dev/null && alias mamba='micromamba'
@@ -44,12 +49,11 @@ elif command -v conda &>/dev/null; then
 	alias c='conda'
 fi
 alias ca='c activate' cda='c deactivate'
-[ -x "$(command -v zoxide)" ] && [ -x "$(command -v fzf)" ] && alias z='zi'
 
-# Slurm shortcuts
+# Slurm aliases
 if [ -x "$(command -v sbatch)" ]; then
 	__jobcols() { printf '%s' "$((COLUMNS / 4))"; }
 	alias squeue='squeue -o "%.18i %.9P %.$(__jobcols)j %.8u %.2t %.10M %.6D %R"'
-	alias squeueu='squeue -u $USER'
+	alias sq='squeue' squ='squeue -u $USER'
 	alias sacct='sacct -o "jobid,jobname%$(__jobcols),alloccpus,MaxRSS,state,exitcode,Start,End"'
 fi
