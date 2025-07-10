@@ -73,9 +73,14 @@ for f in "${XDG_CONFIG_HOME:-$HOME/.config}"/shell/*.(sh|zsh); do
 done
 unset f
 
+# Change cursor shape for different vi modes
+precmd_functions+=(zle-keymap-select)
+zle -N zle-keymap-select
+
 # load plugins
 plugin-load zsh-users/zsh-autosuggestions
 plugin-load zsh-users/zsh-syntax-highlighting
 plugin-load zsh-users/zsh-history-substring-search && \
   bindkey '^[[A' history-substring-search-up && \
   bindkey '^[[B' history-substring-search-down
+
