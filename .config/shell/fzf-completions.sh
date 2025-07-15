@@ -11,12 +11,16 @@ _fzf_complete_scancel_post() {
 	awk '{print $1}'
 }
 
-_fzf_complete_scontrol() {
-	_fzf_complete --header-lines=1 -- "$@" < <(squeue)
-}
-_fzf_complete_scontrol_post() {
-	awk '{print $1}'
-}
+for x in scontrol ssj; do
+	if which $x &>/dev/null; then
+		_fzf_complete_${x}() {
+			_fzf_complete --header-lines=1 -- "$@" < <(squeue)
+		}
+		_fzf_complete_${x}_post() {
+			awk '{print $1}'
+		}
+	fi
+done
 
 if [ -n "$BASH" ]; then
 	complete -F _fzf_complete_scancel -o default -o bashdefault scancel
