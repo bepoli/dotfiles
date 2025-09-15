@@ -11,11 +11,11 @@ Install `curl` and `git`.
 
 Check [bootstrap](bootstrap) to find out what it does, then run it.
 ```sh
-bootstrap [-d OUTPUT_DIRECTORY] [-r REMOTE_URL]
+bootstrap [--repodir OUTPUT_DIRECTORY] [--remote REMOTE_URL] [--github GITHUB_USERNAME] [--gitname FULL_NAME]
 ```
 Example:
 ```sh
-./bootstrap -d ~/.config/dotfiles -r https://github.com/$USER/dotfiles.git
+./bootstrap --repodir ~/.config/dotfiles --remote https://github.com/GITHUB_USERNAME/dotfiles.git --github GITHUB_USERNAME --gitname "FULL NAME"
 ```
 
 ## Uninstall
