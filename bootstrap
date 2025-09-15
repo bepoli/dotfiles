@@ -1,19 +1,68 @@
 #!/bin/sh
 
+# Check for missing dependencies
+missing=""
+if ! command -v git >/dev/null 2>&1; then
+    echo "Error: git is not installed."
+    missing=1
+fi
+if ! command -v curl >/dev/null 2>&1; then
+    echo "Error: curl is not installed."
+    missing=1
+fi
+if [ -n "$missing" ]; then
+    echo "Aborting."
+    exit 1
+fi
+
 # parse arguments and set defaults
 REPODIR="$HOME/.config/dotfiles"
 DOTBACKUP="${REPODIR}-backup"
-REMOTE='https://github.com/bepoli/dotfiles'
-while getopts 'd:r:' opt; do
-    case "$opt" in
-        'd')
-            REPODIR="$OPTARG"
+REMOTE="https://github.com/bepoli/dotfiles"
+GITHUB_USERNAME="bepoli"
+GIT_USERNAME=""
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --repodir)
+            REPODIR="$2"
+            shift 2
             ;;
-        'r')
-            REMOTE="$OPTARG"
+        --remote)
+            REMOTE="$2"
+            shift 2
+            ;;
+        --github)
+            GITHUB_USERNAME="$2"
+            shift 2
+            ;;
+        --gitname)
+            GIT_USERNAME="$2"
+            shift 2
+            ;;
+        *)
+            shift
             ;;
     esac
 done
+
+# Set gitconfig
+if [ -n "$GITHUB_USERNAME" ]; then
+    USERNAME="$GITHUB_USERNAME"
+    DATA=$(curl -s https://api.github.com/users/$USERNAME)
+    ID=$(echo "$DATA" | grep '"id"' | head -1 | grep -o '[0-9]\+')
+    LOGIN=$(echo "$DATA" | grep '"login"' | head -1 | sed 's/.*: "\(.*\)",/\1/')
+    EMAIL="${ID}+${LOGIN}@users.noreply.github.com"
+    git config --global user.email "$EMAIL"
+    # If --gitname not set, use GitHub login for user.name
+    if [ -z "$GIT_USERNAME" ]; then
+        GIT_USERNAME="$LOGIN"
+    fi
+fi
+
+if [ -n "$GIT_USERNAME" ]; then
+    git config --global user.name "$GIT_USERNAME"
+fi
 
 # initialize dotfiles
 cd "$HOME"
@@ -29,4 +78,4 @@ done
 config checkout
 config sparse-checkout set --no-cone '/**' '!bootstrap' '!README.md' '!LICENSE'
 config config --local status.showUntrackedFiles no
-unset REPODIR DOTBACKUP REMOTE d f
+unset REPODIR DOTBACKUP REMOTE d f GITHUB_USERNAME GIT_USERNAME USERNAME DATA ID LOGIN EMAIL
